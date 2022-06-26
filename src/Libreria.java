@@ -14,15 +14,17 @@ public class Libreria extends DatabaseQuery{
     private ArrayList<Libro> Libri = new ArrayList();
     private ArrayList<Prestito> prestiti = new ArrayList();
     public int scadenza_prestiti;
-    public int multa_al_giorno;
+    public int multa_al_giorno=30;
     public int scadenza_prenotazioni;
-    private static Libreria obj;
+
+    //Singleton per libreria
+    private static Libreria libreria;
 
     public static Libreria getInstance() {
-        if (obj == null) {
-            obj = new Libreria();
+        if (libreria == null) {
+            libreria = new Libreria();
         }
-        return obj;
+        return libreria;
     }
 
     public void setScadenza_prestiti(int scadenza_prestiti) {
