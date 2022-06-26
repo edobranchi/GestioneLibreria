@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 public class Libreria extends DatabaseQuery{
     private String nome = null;
     private Libraio libraio = null;
-    private ArrayList<Persona> persone = new ArrayList();
-    private ArrayList<Libro> Libri = new ArrayList();
-    private ArrayList<Prestito> prestiti = new ArrayList();
-    public int scadenza_prestiti;
+    private final ArrayList<Persona> persone = new ArrayList();
+    private final ArrayList<Libro> Libri = new ArrayList();
+    private final ArrayList<Prestito> prestiti = new ArrayList();
+    public int scadenza_prestiti=15;
     public int multa_al_giorno=30;
     public int scadenza_prenotazioni;
 
@@ -98,7 +98,7 @@ public class Libreria extends DatabaseQuery{
             System.out.println("\nInput non valido");
         }
         for (int i = 0; i < this.persone.size(); ++i) {
-            if (((Persona) this.persone.get(i)).getId() == idcliente && ((Persona) this.persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
+            if (( this.persone.get(i)).getId() == idcliente && ( this.persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
                 return (Cliente) this.persone.get(i);
             }
 
@@ -118,7 +118,7 @@ public class Libreria extends DatabaseQuery{
             System.out.println("\nInput non valido");
         }
         for (int i = 0; i < this.persone.size(); ++i) {
-            if (((Persona) this.persone.get(i)).getId() == idcassiere && ((Persona) this.persone.get(i)).getClass().getSimpleName().equals("Cassiere")) {
+            if (this.persone.get(i).getId() == idcassiere && this.persone.get(i).getClass().getSimpleName().equals("Cassiere")) {
                 return (Cassiere) this.persone.get(i);
             }
         }
@@ -134,10 +134,10 @@ public class Libreria extends DatabaseQuery{
     public void rimuoviLibro(Libro libro) {
         boolean delete = true;
         for (int i = 0; i < this.persone.size() && delete; ++i) {
-            if (((Persona) this.persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
+            if (this.persone.get(i).getClass().getSimpleName().equals("Cliente")) {
                 ArrayList<Prestito> libriPrestito = ((Cliente) this.persone.get(i)).getLibriInPrestito();
                 for (int j = 0; i < libriPrestito.size() && delete; ++j) {
-                    if (((Prestito) libriPrestito.get(j)).getLibro() == libro) {
+                    if (libriPrestito.get(j).getLibro() == libro) {
                         delete = false;
                         System.out.println("Questo libro è attualmente in prestito e non può essere rimosso");
                     }
@@ -161,7 +161,7 @@ public class Libreria extends DatabaseQuery{
                                 return;
                             }
                             for (int i = 0; i < richiestaPrestito.size() && delete; ++i) {
-                               RichiestaPrestito hr = (RichiestaPrestito) richiestaPrestito.get(i);
+                               RichiestaPrestito hr = richiestaPrestito.get(i);
                                 hr.getCliente().rimuoviPrenotazione(hr);
                                 libro.rimuoviPrenotazione();
                             }
@@ -203,7 +203,7 @@ public class Libreria extends DatabaseQuery{
 
                 int i;
                 for (i = 0; i < this.Libri.size(); ++i) {
-                    Libro libro = (Libro) this.Libri.get(i);
+                    Libro libro = this.Libri.get(i);
                     if (choice.equals("1")) {
                         if (libro.getTitolo().equals(titolo)) {
                             libriCorrispondenti.add(libro);
@@ -227,7 +227,7 @@ public class Libreria extends DatabaseQuery{
                     System.out.println("\nSono stati trovati i seguenti titoli:");
                     for (i = 0; i < libriCorrispondenti.size(); ++i) {
                         System.out.print(i + "-\t\t");
-                        ((Libro) libriCorrispondenti.get(i)).stampaInfo();
+                        libriCorrispondenti.get(i).stampaInfo();
                         System.out.print("\n");
                     }
                     return libriCorrispondenti;
@@ -244,7 +244,7 @@ public class Libreria extends DatabaseQuery{
             System.out.println("Libri presenti nel catalogo");
             for (int i = 0; i < this.Libri.size(); ++i) {
                 System.out.print(i + "-\t\t");
-                ((Libro) this.Libri.get(i)).stampaInfo();
+                this.Libri.get(i).stampaInfo();
                 System.out.print("\n");
             }
         } else {
@@ -256,10 +256,10 @@ public class Libreria extends DatabaseQuery{
         double multaTotale = 0.0;
         double multaPerLibro = 0.0;
         for (int i = 0; i < this.prestiti.size(); ++i) {
-            Prestito prestito = (Prestito) this.prestiti.get(i);
+            Prestito prestito = this.prestiti.get(i);
             if (prestito.getCliente() == cliente) {
                 multaPerLibro = prestito.calcolaMulta();
-                System.out.print(i + "-\t\t" + ((Prestito) this.prestiti.get(i)).getLibro().getTitolo() + "   " + ((Prestito) this.prestiti.get(i)).getCliente().getNome() + "\t\t" + ((Prestito) this.prestiti.get(i)).getDataInizioPrestito() + "\t\t\t" + ((Prestito) this.prestiti.get(i)).getDataFinePrestito() + "\t\t\t\t" + multaPerLibro + "\n");
+                System.out.print(i + "-\t\t" + this.prestiti.get(i).getLibro().getTitolo() + "   " + this.prestiti.get(i).getCliente().getNome() + "\t\t" + this.prestiti.get(i).getDataInizioPrestito() + "\t\t\t" + this.prestiti.get(i).getDataFinePrestito() + "\t\t\t\t" + multaPerLibro + "\n");
                 multaTotale += multaPerLibro;
             }
         }
@@ -354,9 +354,9 @@ public class Libreria extends DatabaseQuery{
         password = input.next();
 
         for (int i = 0; i < this.persone.size(); ++i) {
-            if (((Persona) this.persone.get(i)).getId() == id && ((Persona) this.persone.get(i)).getPassword().equals(password)) {
+            if (this.persone.get(i).getId() == id && this.persone.get(i).getPassword().equals(password)) {
                 System.out.println("\nBenvenuto " + this.persone.get(i).getNome());
-                return (Persona) this.persone.get(i);
+                return this.persone.get(i);
             }
         }
         if (this.libraio != null && this.libraio.getId() == id && this.libraio.getPassword().equals(password)) {
@@ -376,12 +376,12 @@ public class Libreria extends DatabaseQuery{
             System.out.println("Numero libro.\tTitotlo\tNome cliente\t Nome cassiere prestito\t\tData inizio prestito\t\t\tNome cassiere ritiro\t\tData restituzione\t\tMulta pagata");
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < this.prestiti.size(); ++i) {
-                if (((Prestito) this.prestiti.get(i)).getPrestante() != null) {
-                    System.out.print(i + "-\t" + ((Prestito) this.prestiti.get(i)).getLibro().getTitolo() + "\t\t\t" + ((Prestito) this.prestiti.get(i)).getCliente().getNome() + "\t\t" + ((Prestito) this.prestiti.get(i)).getPrestante().getNome() + "\t    " + ((Prestito) this.prestiti.get(i)).getDataInizioPrestito());
+                if (this.prestiti.get(i).getPrestante() != null) {
+                    System.out.print(i + "-\t" + this.prestiti.get(i).getLibro().getTitolo() + "\t\t\t" + this.prestiti.get(i).getCliente().getNome() + "\t\t" + this.prestiti.get(i).getPrestante().getNome() + "\t    " + this.prestiti.get(i).getDataInizioPrestito());
                 }
 
-                if (((Prestito) this.prestiti.get(i)).getRicevente() != null) {
-                    System.out.print("\t" + ((Prestito) this.prestiti.get(i)).getRicevente().getNome() + "\t\t" + ((Prestito) this.prestiti.get(i)).getDataFinePrestito() + "\t   " + ((Prestito) this.prestiti.get(i)).isMultaPagata() + "\n");
+                if (this.prestiti.get(i).getRicevente() != null) {
+                    System.out.print("\t" + this.prestiti.get(i).getRicevente().getNome() + "\t\t" + this.prestiti.get(i).getDataFinePrestito() + "\t   " + this.prestiti.get(i).isMultaPagata() + "\n");
                 } else {
                     System.out.print("\t\t--\t\t\t--\t\t--\n");
                 }

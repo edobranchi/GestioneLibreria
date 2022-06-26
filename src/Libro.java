@@ -7,12 +7,12 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Libro {
-    private int idlibro;
+    final private int idlibro;
     private String titolo;
-    private String genere;
+    private final String genere;
     private String autore;
     private boolean inprestito;
-    private ArrayList<RichiestaPrestito> libriPrenotati;
+    private final ArrayList<RichiestaPrestito> libriPrenotati;
     static int idlibroattuale=0;
 
     public Libro(int idlibro,String titolo,String genere,String autore,boolean inprestito){
@@ -110,18 +110,18 @@ public class Libro {
         boolean creaRichiesta=true;
         int i;
         for (i=0;i<cliente.getLibriPrenotati().size();i++){
-            if(((RichiestaPrestito)cliente.getLibriPrenotati().get(i)).getLibro()==this){
+            if(cliente.getLibriPrenotati().get(i).getLibro()==this){
                 System.out.println("Hai gia "+this.getTitolo() + " in prestito");
                 return;
             }
         }
         for(i=0;i<this.getLibriPrenotati().size();i++){
-            if(((RichiestaPrestito)this.libriPrenotati.get(i)).getCliente()==cliente){
+            if(this.libriPrenotati.get(i).getCliente()==cliente){
                 creaRichiesta=false;
                 break;
             }
         }
-        if(creaRichiesta==true){
+        if(creaRichiesta){
             this.creaPrenotazioneLibro(cliente);
         }else{
             System.out.println("\n Hai gia una richiesta di prenotazione per "+this.getTitolo());
@@ -135,7 +135,7 @@ public class Libro {
         ArrayList<RichiestaPrestito> prestito=this.libriPrenotati;
         Date today= new Date();
         for(int i=0;i<prestito.size();i++){
-           RichiestaPrestito pren=(RichiestaPrestito) prestito.get(i);
+           RichiestaPrestito pren=prestito.get(i);
             long giorni = ChronoUnit.DAYS.between(today.toInstant(), pren.getDataRichiesta().toInstant());
             giorni = -giorni;
             if(giorni>(long)Libreria.getInstance().getScadenza_prenotazioni()){
@@ -157,7 +157,7 @@ public class Libro {
             if (!this.libriPrenotati.isEmpty()) {
                 boolean haPrenotazioni=false;
                 for(int i=0;i<this.libriPrenotati.size() && !haPrenotazioni;++i){
-                    if(((RichiestaPrestito)this.libriPrenotati.get(i)).getCliente()==cliente){
+                    if(this.libriPrenotati.get(i).getCliente()==cliente){
                         haPrenotazioni=true;
                     }
                 }
@@ -171,14 +171,14 @@ public class Libro {
                     }
                     return;
                 }
-                if(((RichiestaPrestito)this.libriPrenotati.get(0)).getCliente()!=cliente){
+                if(this.libriPrenotati.get(0).getCliente()!=cliente){
                     System.out.println("\nUn'altro utente ha richiesto questo libro prima di te, dovrai aspettare");
                     return;
                 }
-                this.prenotazioneDipendenti((RichiestaPrestito)this.libriPrenotati.get(0));
+                this.prenotazioneDipendenti(this.libriPrenotati.get(0));
             }
             this.setInprestito(true);
-            Prestito Storico =new Prestito(cliente,this,impiegati,(Impiegati) null,new Date(),(Date) null,false);
+            Prestito Storico =new Prestito(cliente,this,impiegati,null,new Date(),null,false);
             Libreria.getInstance().aggiungiPrestito(Storico);
             cliente.aggiungiLibroInPrestito(Storico);
             System.out.println("\nHai preso in prestito con successo "+this.titolo +"di "+this.autore);

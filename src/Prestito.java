@@ -3,9 +3,9 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Prestito {
-    private Cliente cliente;
-    private Libro libro;
-    private Impiegati prestante;
+    private final Cliente cliente;
+    private final Libro libro;
+    private final Impiegati prestante;
     private Impiegati ricevente;
     private Date dataInizioPrestito;
     private Date dataFinePrestito;
@@ -59,7 +59,7 @@ public class Prestito {
             Date fine=this.dataFinePrestito;
             long giorniritardo = ChronoUnit.DAYS.between(fine.toInstant(), inizio.toInstant());
             giorniritardo =0L - giorniritardo;
-            giorniritardo -= (long)Libreria.getInstance().scadenza_prestiti;
+            giorniritardo -= Libreria.getInstance().scadenza_prestiti;
             if (giorniritardo > 0L) {
                 multa = (double)giorniritardo * Libreria.getInstance().multa_al_giorno;
             } else {

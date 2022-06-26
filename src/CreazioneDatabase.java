@@ -5,8 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+
 
 public class CreazioneDatabase implements Runnable {
 
@@ -14,8 +13,8 @@ public class CreazioneDatabase implements Runnable {
     private final List<avanzamento> observers;
     ProgressBar pb = new ProgressBar("Prova",100);
 
-    private Connection con;
-    private Libreria lib;
+    private final Connection con;
+    private final Libreria lib;
 
 
 

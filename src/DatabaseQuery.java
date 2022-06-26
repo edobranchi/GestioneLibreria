@@ -16,7 +16,7 @@ public class DatabaseQuery{
         }
     }
 
-    public void populateLibrary(Connection con,Libreria libreria) throws SQLException, IOException, InterruptedException {
+    public void populateLibrary(Connection con,Libreria libreria) throws SQLException, InterruptedException {
         Libreria lib = libreria;
         Statement stmt = con.createStatement();
         DatabaseMetaData dbm = con.getMetaData();
@@ -85,7 +85,7 @@ public class DatabaseQuery{
             System.out.println("Nessun libraio presente in libreria");
         } else {
             do {
-                id = rs.getInt("id_libraio");
+                id = rs.getInt("id_persona");
                 name = rs.getString("nome_persona");
                 adrs = rs.getString("indirizzo");
                 phn = rs.getInt("numero_telefono");
@@ -140,7 +140,7 @@ public class DatabaseQuery{
                         bb = null;
 
                 for( i = 0; i < lib.getPersone().size() && set; ++i) {
-                    if (((Persona)lib.getPersone().get(i)).getId() == id) {
+                    if ((lib.getPersone().get(i)).getId() == id) {
                         set = false;
                         bb = (Cliente)lib.getPersone().get(i);
                     }
@@ -155,7 +155,7 @@ public class DatabaseQuery{
                     s[0] = lib.getLibraio();
                 } else {
                     for(k = 0; k < lib.getPersone().size() && set; ++k) {
-                        if (((Persona)lib.getPersone().get(k)).getId() == i && ((Persona)lib.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
+                        if ((lib.getPersone().get(k)).getId() == i && (lib.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
                             s[0] = (Cassiere)lib.getPersone().get(k);
                         }
@@ -170,7 +170,7 @@ public class DatabaseQuery{
                     s[1] = lib.getLibraio();
                 } else {
                     for(k = 0; k < lib.getPersone().size() && set; ++k) {
-                        if (((Persona)lib.getPersone().get(k)).getId() == rd && ((Persona)lib.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
+                        if ((lib.getPersone().get(k)).getId() == rd && (lib.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
                             s[1] = (Cassiere)lib.getPersone().get(k);
                         }
@@ -181,9 +181,9 @@ public class DatabaseQuery{
                 ArrayList<Libro> books = lib.getLibri();
 
                 for(k = 0; k < books.size() && set; ++k) {
-                    if (((Libro)books.get(k)).getIdlibro() == bokid) {
+                    if ((books.get(k)).getIdlibro() == bokid) {
                         set = false;
-                        Prestito l = new Prestito(bb, (Libro) books.get(k), s[0], s[1], idate, rdate, fineStatus);
+                        Prestito l = new Prestito(bb, books.get(k), s[0], s[1], idate, rdate, fineStatus);
                         lib.getPrestiti().add(l);
                     }
                 }
@@ -239,7 +239,7 @@ public class DatabaseQuery{
                 boolean okay = true;
 
                 for(i = 0; i < lib.getPersone().size() && set; ++i) {
-                    if (((Persona)lib.getPersone().get(i)).getClass().getSimpleName().equals("cliente") && ((Persona)lib.getPersone().get(i)).getId() == id) {
+                    if ((lib.getPersone().get(i)).getClass().getSimpleName().equals("cliente") && (lib.getPersone().get(i)).getId() == id) {
                         set = false;
                         bb = (Cliente) lib.getPersone().get(i);
                     }
@@ -251,7 +251,7 @@ public class DatabaseQuery{
                 for(i = 0; i < books.size() && set; ++i) {
                     if (((Prestito)books.get(i)).getLibro().getIdlibro() == bokid && ((Prestito)books.get(i)).getRicevente() == null) {
                         set = false;
-                        Prestito bBook = new Prestito(bb, ((Prestito)books.get(i)).getLibro(), ((Prestito)books.get(i)).getPrestante(), (Impiegati) null, ((Prestito)books.get(i)).getDataInizioPrestito(), (java.util.Date)null, ((Prestito)books.get(i)).isMultaPagata());
+                        Prestito bBook = new Prestito(bb, ((Prestito)books.get(i)).getLibro(), ((Prestito)books.get(i)).getPrestante(), null, ((Prestito)books.get(i)).getDataInizioPrestito(), null, ((Prestito)books.get(i)).isMultaPagata());
                         bb.aggiungiLibroInPrestito(bBook);
                     }
                 }
@@ -262,15 +262,15 @@ public class DatabaseQuery{
         bokid = 0;
 
         for(i = 0; i < persons.size(); ++i) {
-            if (bokid < ((Persona)persons.get(i)).getId()) {
-                bokid = ((Persona)persons.get(i)).getId();
+            if (bokid < (persons.get(i)).getId()) {
+                bokid = (persons.get(i)).getId();
             }
         }
 
         Persona.setNumeroIdAttuale(bokid);
     }
 
-    public void fillItBack(Connection con,Libreria libreria) throws SQLException, SQLIntegrityConstraintViolationException {
+    public void fillItBack(Connection con,Libreria libreria) throws SQLException{
         System.out.println("Salvataggio e chiusura in corso...");
         String template = "DELETE FROM public.prestito";
         PreparedStatement stmts = con.prepareStatement(template);
@@ -306,25 +306,25 @@ public class DatabaseQuery{
         for(i = 0; i < lib.getPersone().size(); ++i) {
             template = "INSERT INTO persona (id_persona,nome_persona,password,indirizzo,numero_telefono) values (?,?,?,?,?)";
             stmt = con.prepareStatement(template);
-            stmt.setInt(1, ((Persona)lib.getPersone().get(i)).getId());
-            stmt.setString(2, ((Persona)lib.getPersone().get(i)).getNome());
-            stmt.setString(3, ((Persona)lib.getPersone().get(i)).getPassword());
-            stmt.setString(4, ((Persona)lib.getPersone().get(i)).getIndirizzo());
-            stmt.setLong(5, ((Persona)lib.getPersone().get(i)).getNumeroTelefono());
+            stmt.setInt(1, (lib.getPersone().get(i)).getId());
+            stmt.setString(2, (lib.getPersone().get(i)).getNome());
+            stmt.setString(3, (lib.getPersone().get(i)).getPassword());
+            stmt.setString(4, (lib.getPersone().get(i)).getIndirizzo());
+            stmt.setLong(5, (lib.getPersone().get(i)).getNumeroTelefono());
             stmt.executeUpdate();
         }
 
         for(i = 0; i < lib.getPersone().size(); ++i) {
-            if (((Persona)lib.getPersone().get(i)).getClass().getSimpleName().equals("Cassiere")) {
+            if ((lib.getPersone().get(i)).getClass().getSimpleName().equals("Cassiere")) {
                 template = "INSERT INTO impiegato (id_impiegato,tipo,stipendio) values (?,?,?)";
                 stmt = con.prepareStatement(template);
-                stmt.setInt(1, ((Persona)lib.getPersone().get(i)).getId());
+                stmt.setInt(1, (lib.getPersone().get(i)).getId());
                 stmt.setString(2, "Cassiere");
                 stmt.setDouble(3, ((Cassiere)lib.getPersone().get(i)).getSalario());
                 stmt.executeUpdate();
                 template = "INSERT INTO Cassiere (id_cassiere,numero_scrivania) values (?,?)";
                 stmt = con.prepareStatement(template);
-                stmt.setInt(1, ((Persona)lib.getPersone().get(i)).getId());
+                stmt.setInt(1, (lib.getPersone().get(i)).getId());
                 stmt.setInt(2, ((Cassiere)lib.getPersone().get(i)).numeroScrivania);
                 stmt.executeUpdate();
             }
@@ -345,10 +345,10 @@ public class DatabaseQuery{
         }
 
         for(i = 0; i < lib.getPersone().size(); ++i) {
-            if (((Persona)lib.getPersone().get(i)).getClass().getSimpleName().equals("Cliente")) {
+            if ((lib.getPersone().get(i)).getClass().getSimpleName().equals("Cliente")) {
                 template = "INSERT INTO cliente(id_cliente) values (?)";
                 stmt = con.prepareStatement(template);
-                stmt.setInt(1, ((Persona)lib.getPersone().get(i)).getId());
+                stmt.setInt(1, (lib.getPersone().get(i)).getId());
                 stmt.executeUpdate();
             }
         }
@@ -360,11 +360,11 @@ public class DatabaseQuery{
         for(x = 0; x < books.size(); ++x) {
             template = "INSERT INTO libro (id_libro,titolo,autore,genere,in_prestito) values (?,?,?,?,?)";
             stmt = con.prepareStatement(template);
-            stmt.setInt(1, ((Libro)books.get(x)).getIdlibro());
-            stmt.setString(2, ((Libro)books.get(x)).getTitolo());
-            stmt.setString(3, ((Libro)books.get(x)).getAutore());
-            stmt.setString(4, ((Libro)books.get(x)).getGenere());
-            stmt.setBoolean(5, ((Libro)books.get(x)).isInprestito());
+            stmt.setInt(1, (books.get(x)).getIdlibro());
+            stmt.setString(2, (books.get(x)).getTitolo());
+            stmt.setString(3, (books.get(x)).getAutore());
+            stmt.setString(4, (books.get(x)).getGenere());
+            stmt.setBoolean(5, (books.get(x)).isInprestito());
             stmt.executeUpdate();
         }
 
@@ -372,17 +372,17 @@ public class DatabaseQuery{
             template = "INSERT INTO prestito(id_prestito,cliente,libro,prestante,data_inizio_prestito,ricevente,data_fine_prestito,multa_pagata) values (?,?,?,?,?,?,?,?)";
             stmt = con.prepareStatement(template);
             stmt.setInt(1, x + 1);
-            stmt.setInt(2, ((Prestito)lib.getPrestiti().get(x)).getCliente().getId());
-            stmt.setInt(3, ((Prestito)lib.getPrestiti().get(x)).getLibro().getIdlibro());
-            stmt.setInt(4, ((Prestito)lib.getPrestiti().get(x)).getPrestante().getId());
-            stmt.setTimestamp(5, new Timestamp(((Prestito)lib.getPrestiti().get(x)).getDataInizioPrestito().getTime()));
-            stmt.setBoolean(8, ((Prestito)lib.getPrestiti().get(x)).isMultaPagata());
-            if (((Prestito)lib.getPrestiti().get(x)).getRicevente() == null) {
+            stmt.setInt(2, (lib.getPrestiti().get(x)).getCliente().getId());
+            stmt.setInt(3, (lib.getPrestiti().get(x)).getLibro().getIdlibro());
+            stmt.setInt(4, (lib.getPrestiti().get(x)).getPrestante().getId());
+            stmt.setTimestamp(5, new Timestamp((lib.getPrestiti().get(x)).getDataInizioPrestito().getTime()));
+            stmt.setBoolean(8, (lib.getPrestiti().get(x)).isMultaPagata());
+            if ((lib.getPrestiti().get(x)).getRicevente() == null) {
                 stmt.setNull(6, 4);
-                stmt.setDate(7, (java.sql.Date)null);
+                stmt.setDate(7, null);
             } else {
-                stmt.setInt(6, ((Prestito)lib.getPrestiti().get(x)).getRicevente().getId());
-                stmt.setTimestamp(7, new Timestamp(((Prestito)lib.getPrestiti().get(x)).getDataFinePrestito().getTime()));
+                stmt.setInt(6, lib.getPrestiti().get(x).getRicevente().getId());
+                stmt.setTimestamp(7, new Timestamp(lib.getPrestiti().get(x).getDataFinePrestito().getTime()));
             }
 
             stmt.executeUpdate();
@@ -392,28 +392,28 @@ public class DatabaseQuery{
 
         //int i;
         for(i = 0; i < lib.getLibri().size(); ++i) {
-            for(int j = 0; j < ((Libro)lib.getLibri().get(i)).getLibriPrenotati().size(); ++j) {
+            for(int j = 0; j < lib.getLibri().get(i).getLibriPrenotati().size(); ++j) {
                 template = "INSERT INTO libro_prenotato(id_prenotazione,libro,cliente,data_prenotazione) values (?,?,?,?)";
                 stmt = con.prepareStatement(template);
                 stmt.setInt(1, x);
-                stmt.setInt(3, ((RichiestaPrestito)((Libro)lib.getLibri().get(i)).getLibriPrenotati().get(j)).getCliente().getId());
-                stmt.setInt(2, ((RichiestaPrestito)((Libro)lib.getLibri().get(i)).getLibriPrenotati().get(j)).getLibro().getIdlibro());
-                stmt.setDate(4, new java.sql.Date(((RichiestaPrestito)((Libro)lib.getLibri().get(i)).getLibriPrenotati().get(j)).getDataRichiesta().getTime()));
+                stmt.setInt(3, lib.getLibri().get(i).getLibriPrenotati().get(j).getCliente().getId());
+                stmt.setInt(2, lib.getLibri().get(i).getLibriPrenotati().get(j).getLibro().getIdlibro());
+                stmt.setDate(4, new java.sql.Date(lib.getLibri().get(i).getLibriPrenotati().get(j).getDataRichiesta().getTime()));
                 stmt.executeUpdate();
                 ++x;
             }
         }
 
         for(i = 0; i < lib.getLibri().size(); ++i) {
-            if (((Libro)lib.getLibri().get(i)).isInprestito()) {
+            if (lib.getLibri().get(i).isInprestito()) {
                 boolean set = true;
 
                 for(int j = 0; j < lib.getPrestiti().size() && set; ++j) {
-                    if (((Libro)lib.getLibri().get(i)).getIdlibro() == ((Prestito)lib.getPrestiti().get(j)).getLibro().getIdlibro() && ((Prestito)lib.getPrestiti().get(j)).getRicevente() == null) {
-                        template = "INSERT INTO libro_in_prestito(Libro,cliente) values (?,?)";
+                    if (lib.getLibri().get(i).getIdlibro() == lib.getPrestiti().get(j).getLibro().getIdlibro() && lib.getPrestiti().get(j).getRicevente() == null) {
+                        template = "INSERT INTO libro_in_prestito(id_libro,cliente) values (?,?)";
                         stmt = con.prepareStatement(template);
-                        stmt.setInt(1, ((Prestito)lib.getPrestiti().get(j)).getLibro().getIdlibro());
-                        stmt.setInt(2, ((Prestito)lib.getPrestiti().get(j)).getCliente().getId());
+                        stmt.setInt(1, lib.getPrestiti().get(j).getLibro().getIdlibro());
+                        stmt.setInt(2, lib.getPrestiti().get(j).getCliente().getId());
                         stmt.executeUpdate();
                         set = false;
                     }

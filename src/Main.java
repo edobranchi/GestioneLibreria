@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -30,7 +31,7 @@ public class Main {
         }
     }
 
-    public static void funzionalità(Persona persona, int scelta) throws IOException {
+    public static void funzionalita(Persona persona, int scelta) throws IOException {
         Libreria libreria = Libreria.getInstance();
         Scanner scanner = new Scanner(System.in);
         if (scelta == 1) {
@@ -159,167 +160,175 @@ public class Main {
         System.in.read();
     }
 
-    public static void main(String[] args) {
-        Scanner admin = new Scanner(System.in);
-        Libreria lib = Libreria.getInstance();
-        lib.setMulta_al_giorno(20);
-        lib.setScadenza_prestiti(5);
-        lib.setScadenza_prenotazioni(7);
-        lib.setNome("Libreria");
-        Connection con = lib.makeConnection();
-        if (con == null) {
-            System.out.println("\nErrore nella connessione al DB");
-        } else {
-            try {
-                lib.populateLibrary(con,lib);
-                boolean stop = false;
+    public static void main(String[] args) throws SQLException {
+        try {
+            Scanner admin = new Scanner(System.in);
+            Libreria lib = Libreria.getInstance();
+            lib.setMulta_al_giorno(20);
+            lib.setScadenza_prestiti(5);
+            lib.setScadenza_prenotazioni(7);
+            lib.setNome("Libreria");
+            Connection con = lib.makeConnection();
+            if (con == null) {
+                System.out.println("\nErrore nella connessione al DB");
+            } else {
+                try {
+                    lib.populateLibrary(con, lib);
+                    boolean stop = false;
 
-                while(!stop) {
-                    pulisciSchermo();
-                    System.out.println("--------------------------------------------------------");
-                    System.out.println("\tGestione Libreria");
-                    System.out.println("--------------------------------------------------------");
-                    System.out.println("Scegli cosa vuoi fare: \n");
-                    System.out.println("1- Login");
-                    System.out.println("2- Esci");
-                    System.out.println("3- Funzioni amministrative");
-                    System.out.println("-----------------------------------------\n");
-                   
-                    int scelta = inserimento(0, 4);
-                    if (scelta == 3) {
-                        System.out.println("\nInserisci password: ");
-                        String aPass = admin.next();
-                        if (aPass.equals("libraio")) {
-                            while(true) {
-                                pulisciSchermo();
-                                System.out.println("--------------------------------------------------------");
-                                System.out.println("\tAmministrazione");
-                                System.out.println("--------------------------------------------------------");
-                                System.out.println("Scegli cosa vuoi fare: \n");
-                                System.out.println("1- Aggiungi cassiere");
-                                System.out.println("2- Aggiungi libraio");
-                                System.out.println("3- Stampa storico prestiti");
-                                System.out.println("4- Stampa inventario Libri");
-                                System.out.println("5- Esci");
-                                System.out.println("---------------------------------------------");
-                                scelta = inserimento(0, 6);
-                                if (scelta == 5) {
-                                    break;
+                    while (!stop) {
+                        pulisciSchermo();
+                        System.out.println("--------------------------------------------------------");
+                        System.out.println("\tGestione Libreria");
+                        System.out.println("--------------------------------------------------------");
+                        System.out.println("Scegli cosa vuoi fare: \n");
+                        System.out.println("1- Login");
+                        System.out.println("2- Esci");
+                        System.out.println("3- Funzioni amministrative");
+                        System.out.println("-----------------------------------------\n");
+
+                        int scelta = inserimento(0, 4);
+                        if (scelta == 3) {
+                            System.out.println("\nInserisci password: ");
+                            String aPass = admin.next();
+                            if (aPass.equals("libraio")) {
+                                while (true) {
+                                    pulisciSchermo();
+                                    System.out.println("--------------------------------------------------------");
+                                    System.out.println("\tAmministrazione");
+                                    System.out.println("--------------------------------------------------------");
+                                    System.out.println("Scegli cosa vuoi fare: \n");
+                                    System.out.println("1- Aggiungi cassiere");
+                                    System.out.println("2- Aggiungi libraio");
+                                    System.out.println("3- Stampa storico prestiti");
+                                    System.out.println("4- Stampa inventario Libri");
+                                    System.out.println("5- Esci");
+                                    System.out.println("---------------------------------------------");
+                                    scelta = inserimento(0, 6);
+                                    if (scelta == 5) {
+                                        break;
+                                    }
+
+                                    if (scelta == 1) {
+                                        lib.creaPersona('c');
+                                    } else if (scelta == 2) {
+                                        lib.creaPersona('l');
+                                    } else if (scelta == 3) {
+                                        lib.stampaStorico();
+                                    } else if (scelta == 4) {
+                                        lib.stampaTuttiILibri();
+                                    }
+
+                                    System.out.println("\nPremi invio per continuare\n");
+                                    System.in.read();
                                 }
+                            } else {
+                                System.out.println("\nPassword errata");
+                            }
+                        } else if (scelta == 1) {
+                            Persona persona = lib.login();
+                            if (persona != null) {
+                                if (persona.getClass().getSimpleName().equals("Cliente")) {
+                                    while (true) {
+                                        pulisciSchermo();
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("\tCliente:");
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("Scegli cosa vuoi fare: \n");
+                                        System.out.println("1- Ricerca un libro");
+                                        System.out.println("2- Prenota un libro");
+                                        System.out.println("3- Stampa i tuoi dati");
+                                        System.out.println("4- Controlla le tue multe");
+                                        System.out.println("5- Controlla prenotazioni per un libro");
+                                        System.out.println("6- Esci");
+                                        System.out.println("--------------------------------------------------------");
+                                        scelta = inserimento(0, 7);
+                                        if (scelta == 6) {
+                                            break;
+                                        }
 
-                                if (scelta == 1) {
-                                    lib.creaPersona('c');
-                                } else if (scelta == 2) {
-                                    lib.creaPersona('l');
-                                } else if (scelta == 3) {
-                                    lib.stampaStorico();
-                                } else if (scelta == 4) {
-                                    lib.stampaTuttiILibri();
+                                        funzionalita(persona, scelta);
+                                    }
+                                } else if (persona.getClass().getSimpleName().equals("Cassiere")) {
+                                    while (true) {
+                                        pulisciSchermo();
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("\tCassiere");
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("Scegli cosa vuoi fare: \n");
+                                        System.out.println("1- Cerca un libro");
+                                        System.out.println("2- Prenota un libro");
+                                        System.out.println("3- Controlla informazioni cliente");
+                                        System.out.println("4- Controlla multe cliente");
+                                        System.out.println("5- Controlla coda prenotazioni di un libro");
+                                        System.out.println("6- Dai in prestito un libro");
+                                        System.out.println("7- Ricevi dal prestito un libro");
+                                        System.out.println("8- Rinnova un libro");
+                                        System.out.println("9- Aggiungi nuovo cliente");
+                                        System.out.println("10- Cambia informazioni cliente");
+                                        System.out.println("11- Esci");
+                                        System.out.println("--------------------------------------------------------");
+                                        scelta = inserimento(0, 12);
+                                        if (scelta == 11) {
+                                            break;
+                                        }
+
+                                        funzionalita(persona, scelta);
+                                    }
+                                } else if (persona.getClass().getSimpleName().equals("Libraio")) {
+                                    while (true) {
+                                        pulisciSchermo();
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("\tLibraio");
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("Scegli cosa vuoi fare: \n");
+                                        System.out.println("1- Cerca un libro");
+                                        System.out.println("2- Prenota un libro");
+                                        System.out.println("3- Stampa informazioni cliente");
+                                        System.out.println("4- Controlla multa cliente");
+                                        System.out.println("5- Controlla coda prenotazione di un libro");
+                                        System.out.println("6- Dai in prestito un libro");
+                                        System.out.println("7- Ricevi dal prestito un libro");
+                                        System.out.println("8- Rinnova un libro");
+                                        System.out.println("9- Aggiungi nuovo cliente");
+                                        System.out.println("10- Aggiorna informazioni cliente");
+                                        System.out.println("11- Aggiungi un libro");
+                                        System.out.println("12- Rimuovi un libro");
+                                        System.out.println("13- Cambia informazioni libro");
+                                        System.out.println("14- Stampa informazioni cassiere");
+                                        System.out.println("15- Esci");
+                                        System.out.println("--------------------------------------------------------");
+                                        scelta = inserimento(0, 16);
+                                        if (scelta == 15) {
+                                            break;
+                                        }
+
+                                        funzionalita(persona, scelta);
+                                    }
                                 }
-
-                                System.out.println("\nPremi invio per continuare\n");
-                                System.in.read();
                             }
                         } else {
-                            System.out.println("\nPassword errata");
+                            stop = true;
                         }
-                    } else if (scelta == 1) {
-                        Persona persona = lib.login();
-                        if (persona != null) {
-                            if (persona.getClass().getSimpleName().equals("Cliente")) {
-                                while(true) {
-                                    pulisciSchermo();
-                                    System.out.println("--------------------------------------------------------");
-                                    System.out.println("\tCliente:");
-                                    System.out.println("--------------------------------------------------------");
-                                    System.out.println("Scegli cosa vuoi fare: \n");
-                                    System.out.println("1- Ricerca un libro");
-                                    System.out.println("2- Prenota un libro");
-                                    System.out.println("3- Stampa i tuoi dati");
-                                    System.out.println("4- Controlla le tue multe");
-                                    System.out.println("5- Controlla prenotazioni per un libro");
-                                    System.out.println("6- Esci");
-                                    System.out.println("--------------------------------------------------------");
-                                    scelta = inserimento(0, 7);
-                                    if (scelta == 6) {
-                                        break;
-                                    }
 
-                                    funzionalità(persona, scelta);
-                                }
-                            } else if (persona.getClass().getSimpleName().equals("Cassiere")) {
-                                while(true) {
-                                    pulisciSchermo();
-                                    System.out.println("--------------------------------------------------------");
-                                    System.out.println("\tCassiere");
-                                    System.out.println("--------------------------------------------------------");
-                                    System.out.println("Scegli cosa vuoi fare: \n");
-                                    System.out.println("1- Cerca un libro");
-                                    System.out.println("2- Prenota un libro");
-                                    System.out.println("3- Controlla informazioni cliente");
-                                    System.out.println("4- Controlla multe cliente");
-                                    System.out.println("5- Controlla coda prenotazioni di un libro");
-                                    System.out.println("6- Dai in prestito un libro");
-                                    System.out.println("7- Ricevi dal prestito un libro");
-                                    System.out.println("8- Rinnova un libro");
-                                    System.out.println("9- Aggiungi nuovo cliente");
-                                    System.out.println("10- Cambia informazioni cliente");
-                                    System.out.println("11- Esci");
-                                    System.out.println("--------------------------------------------------------");
-                                    scelta = inserimento(0, 12);
-                                    if (scelta == 11) {
-                                        break;
-                                    }
-
-                                    funzionalità(persona, scelta);
-                                }
-                            } else if (persona.getClass().getSimpleName().equals("Libraio")) {
-                                while(true) {
-                                   pulisciSchermo();
-                                    System.out.println("--------------------------------------------------------");
-                                    System.out.println("\tLibraio");
-                                    System.out.println("--------------------------------------------------------");
-                                    System.out.println("Scegli cosa vuoi fare: \n");
-                                    System.out.println("1- Cerca un libro");
-                                    System.out.println("2- Prenota un libro");
-                                    System.out.println("3- Stampa informazioni cliente");
-                                    System.out.println("4- Controlla multa cliente");
-                                    System.out.println("5- Controlla coda prenotazione di un libro");
-                                    System.out.println("6- Dai in prestito un libro");
-                                    System.out.println("7- Ricevi dal prestito un libro");
-                                    System.out.println("8- Rinnova un libro");
-                                    System.out.println("9- Aggiungi nuovo cliente");
-                                    System.out.println("10- Aggiorna informazioni cliente");
-                                    System.out.println("11- Aggiungi un libro");
-                                    System.out.println("12- Rimuovi un libro");
-                                    System.out.println("13- Cambia informazioni libro");
-                                    System.out.println("14- Stampa informazioni cassiere");
-                                    System.out.println("15- Esci");
-                                    System.out.println("--------------------------------------------------------");
-                                    scelta = inserimento(0, 16);
-                                    if (scelta == 15) {
-                                        break;
-                                    }
-
-                                    funzionalità(persona, scelta);
-                                }
-                            }
-                        }
-                    } else {
-                        stop = true;
+                        System.out.println("\nPremi invio per continuare...\n");
+                        System.in.read();
                     }
 
-                    System.out.println("\nPremi invio per continuare...\n");
-                    System.in.read();
+                    lib.fillItBack(con, lib);
+                } catch (Exception var7) {
+                    var7.printStackTrace();
+                    System.out.println("\nEsco...\n");
                 }
 
-                lib.fillItBack(con,lib);
-            } catch (Exception var7) {
-                var7.printStackTrace();
-                System.out.println("\nEsco...\n");
             }
-
+        }catch (NullPointerException ex){
+    }finally {
+            Libreria lib= Libreria.getInstance();
+            Connection con = lib.makeConnection();
+            lib.fillItBack(con,lib);
         }
+
     }
     
     

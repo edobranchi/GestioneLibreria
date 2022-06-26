@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cliente extends Persona {
-    private ArrayList<Prestito> libriInPrestito = new ArrayList();
-    private ArrayList<RichiestaPrestito> libriPrenotati = new ArrayList();
+    private final ArrayList<Prestito> libriInPrestito = new ArrayList();
+    private final ArrayList<RichiestaPrestito> libriPrenotati = new ArrayList();
 
     public Cliente(int id, String nome, String indirizzo, long numeroTelefono) {
         super(id, nome, indirizzo, numeroTelefono);
@@ -22,9 +22,10 @@ public class Cliente extends Persona {
         if (this.libriInPrestito.isEmpty()) {
             System.out.println("L'utente non ha libri in prestito: ");
         } else {
+            System.out.println("Libri in prestito:");
             for (int i = 0; i < this.libriInPrestito.size(); i++) {
-                System.out.println(i);
-                ((Prestito) this.libriInPrestito.get(i)).getLibro().stampaInfo();
+                System.out.println("ID Libro: " + i);
+                this.libriInPrestito.get(i).getLibro().stampaInfo();
             }
         }
     }
@@ -33,9 +34,11 @@ public class Cliente extends Persona {
         if (this.libriPrenotati.isEmpty()) {
             System.out.println("L'utente non ha libri prenotati ");
         } else {
+            System.out.println("Libri prenotati:");
             for (int i = 0; i < this.libriPrenotati.size(); i++) {
-                System.out.println(i);
-                ((RichiestaPrestito) this.libriPrenotati.get(i)).getLibro().stampaInfo();
+                System.out.println("ID Libro: " + i);
+                this.libriPrenotati.get(i).getLibro().stampaInfo();
+
             }
         }
     }

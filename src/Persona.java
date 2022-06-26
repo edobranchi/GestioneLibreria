@@ -21,10 +21,10 @@ public abstract class Persona {
     }
     public void stampaInfo(){
         System.out.println("Le informazioni richieste sono:\n");
-        System.out.println("ID:"+this.id);
-        System.out.println("Nome:"+this.nome);
-        System.out.println("Indirizzo" +this.indirizzo);
-        System.out.println("Numero di telefono:"+this.numeroTelefono);
+        System.out.println("ID: "+this.id);
+        System.out.println("Nome: "+this.nome);
+        System.out.println("Indirizzo: " +this.indirizzo);
+        System.out.println("Numero di telefono: "+this.numeroTelefono);
     }
 
     public String getNome() {
