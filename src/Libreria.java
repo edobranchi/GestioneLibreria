@@ -354,6 +354,10 @@ public class Libreria extends DatabaseQuery{
         password = input.next();
 
         for (int i = 0; i < this.persone.size(); ++i) {
+
+            //System.out.println(i);
+            //System.out.println(this.persone.get(i).getId()+this.persone.get(i).getPassword());
+
             if (this.persone.get(i).getId() == id && this.persone.get(i).getPassword().equals(password)) {
                 System.out.println("\nBenvenuto " + this.persone.get(i).getNome());
                 return this.persone.get(i);

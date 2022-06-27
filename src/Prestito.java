@@ -57,11 +57,15 @@ public class Prestito {
         if (!this.multaPagata){
             Date inizio=this.dataInizioPrestito;
             Date fine=this.dataFinePrestito;
-            long giorniritardo = ChronoUnit.DAYS.between(fine.toInstant(), inizio.toInstant());
-            giorniritardo =0L - giorniritardo;
-            giorniritardo -= Libreria.getInstance().scadenza_prestiti;
-            if (giorniritardo > 0L) {
+            if(fine!=null){
+                long giorniritardo = ChronoUnit.DAYS.between(fine.toInstant(), inizio.toInstant());
+                giorniritardo =0L - giorniritardo;
+                giorniritardo -= Libreria.getInstance().scadenza_prestiti;
+                if (giorniritardo > 0L) {
                 multa = (double)giorniritardo * Libreria.getInstance().multa_al_giorno;
+                }else{
+                    multa=0.0;
+                }
             } else {
                 multa = 0.0;
             }

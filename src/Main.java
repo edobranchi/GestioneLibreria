@@ -315,18 +315,17 @@ public class Main {
                         System.in.read();
                     }
 
-                    lib.fillItBack(con, lib);
+                    lib.riempiDB(con, lib);
                 } catch (Exception var7) {
                     var7.printStackTrace();
                     System.out.println("\nEsco...\n");
                 }
-
             }
         }catch (NullPointerException ex){
     }finally {
             Libreria lib= Libreria.getInstance();
             Connection con = lib.makeConnection();
-            lib.fillItBack(con,lib);
+            lib.riempiDB(con,lib);
         }
 
     }

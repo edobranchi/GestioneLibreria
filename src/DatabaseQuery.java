@@ -59,27 +59,30 @@ public class DatabaseQuery{
             Libro.setIdlibroattuale(id);
         }
 
-        SQL = "SELECT id_persona,nome_persona,indirizzo,password,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Cassiere ON id_persona=id_cassiere INNER JOIN Impiegato ON id_impiegato=id_cassiere";
+        SQL = "SELECT id_persona,nome_persona,password,indirizzo,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Cassiere ON id_persona=id_cassiere INNER JOIN Impiegato ON id_impiegato=id_cassiere";
         rs = stmt.executeQuery(SQL);
         int phn;
         double sal;
         int i;
+        String psw;
         if (!rs.next()) {
             System.out.println("Nessun cassiere trovato in libreria");
         } else {
             do {
                 id = rs.getInt("id_persona");
                 name = rs.getString("nome_persona");
+                psw=rs.getString("password");
                 adrs = rs.getString("indirizzo");
                 phn = rs.getInt("numero_telefono");
                 sal = rs.getDouble("stipendio");
                 i = rs.getInt("numero_scrivania");
-                Cassiere c = new Cassiere(id, name, adrs, phn, sal, i);
+                Cassiere c = new Cassiere(id, name,adrs, phn, sal, i);
+                c.setPassword(psw);
                 lib.aggiungiCassiere(c);
             } while(rs.next());
         }
 
-        SQL = "SELECT id_persona,nome_persona,indirizzo,password,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Libraio ON id_persona=id_libraio INNER JOIN Impiegato ON id_impiegato=id_libraio";
+        SQL = "SELECT id_persona,nome_persona,password,indirizzo,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Libraio ON id_persona=id_libraio INNER JOIN Impiegato ON id_impiegato=id_libraio";
         rs = stmt.executeQuery(SQL);
         if (!rs.next()) {
             System.out.println("Nessun libraio presente in libreria");
@@ -87,16 +90,18 @@ public class DatabaseQuery{
             do {
                 id = rs.getInt("id_persona");
                 name = rs.getString("nome_persona");
+                psw=rs.getString("password");
                 adrs = rs.getString("indirizzo");
                 phn = rs.getInt("numero_telefono");
                 sal = rs.getDouble("stipendio");
                 i = rs.getInt("numero_scrivania");
                 Libraio l = new Libraio(id, name, adrs, phn, sal, i);
+                l.setPassword(psw);
                 lib.aggiungiLibraio(l);
             } while(rs.next());
         }
 
-        SQL = "SELECT id_persona,nome_persona,indirizzo,password,numero_telefono FROM Persona INNER JOIN Cliente ON id_persona=id_cliente";
+        SQL = "SELECT id_persona,nome_persona,password,indirizzo,password,numero_telefono FROM Persona INNER JOIN Cliente ON id_persona=id_cliente";
         rs = stmt.executeQuery(SQL);
         Cliente bb;
         if (!rs.next()) {
@@ -105,9 +110,11 @@ public class DatabaseQuery{
             do {
                 id = rs.getInt("id_persona");
                 name = rs.getString("nome_persona");
+                psw=rs.getString("password");
                 adrs = rs.getString("indirizzo");
                 phn = rs.getInt("numero_telefono");
                 bb = new Cliente(id, name, adrs, phn);
+                bb.setPassword(psw);
                 lib.aggiungiCliente(bb);
             } while(rs.next());
         }
@@ -270,7 +277,7 @@ public class DatabaseQuery{
         Persona.setNumeroIdAttuale(bokid);
     }
 
-    public void fillItBack(Connection con,Libreria libreria) throws SQLException{
+    public void riempiDB(Connection con,Libreria libreria) throws SQLException{
         System.out.println("Salvataggio e chiusura in corso...");
         String template = "DELETE FROM public.prestito";
         PreparedStatement stmts = con.prepareStatement(template);

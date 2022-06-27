@@ -31,6 +31,10 @@ public abstract class Persona {
         return nome;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }

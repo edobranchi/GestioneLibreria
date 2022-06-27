@@ -185,7 +185,8 @@ public class Libro {
             System.out.println("Prestito creato da "+impiegati.getNome());
         }
 
-        }public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
+        }
+        public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
         prestito.getLibro().setInprestito(false);
         prestito.setDataFinePrestito(new Date());
         prestito.setRicevente(impiegati);
