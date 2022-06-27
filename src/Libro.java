@@ -56,22 +56,22 @@ public class Libro {
     public void cambiaInfoLibro() throws IOException {
         Scanner scanner=new Scanner(System.in);
         BufferedReader buffread= new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Cambiare autore?");
+        System.out.println("Cambiare autore?(SI(s)/NO(n))");
         String input = scanner.next();
-        if(input.equals("y")){
+        if(input.equals("s")){
             System.out.println("Inserisci il nuovo autore: ");
             this.autore=buffread.readLine();
         }
-        System.out.println("Vuoi cambiare Titolo?");
+        System.out.println("Vuoi cambiare Titolo?(SI(s)/NO(n))");
         input= scanner.next();
-        if (input.equals("y")){
+        if (input.equals("s")){
             System.out.println("inserisci nuovo titolo:");
             this.titolo=buffread.readLine();
         }
-        System.out.println("Vuoi cambiare genere?");
+        System.out.println("Vuoi cambiare genere?(SI(s)/NO(n))");
         input= scanner.next();
-        if (input.equals("y")){
-            System.out.println("inserisci nuovo genere:");
+        if (input.equals("s")){
+            System.out.println("Inserisci nuovo genere:");
             this.titolo=buffread.readLine();
         }
         System.out.println("\nLibro aggiornato");
@@ -146,10 +146,10 @@ public class Libro {
         }
         if(this.inprestito) {
             System.out.println(this.titolo + " è già in prestito.");
-            System.out.println("Vuoi prenotare " + this.titolo);
+            System.out.println("Vuoi prenotare " + this.titolo+" (SI(s)/NO(n))");
             Scanner scan = new Scanner(System.in);
             String input = scan.next();
-            if (input.equals("y")) {
+            if (input.equals("s")) {
                 this.creaPrenotazione(cliente);
             }
 
@@ -163,10 +163,10 @@ public class Libro {
                 }
                 if(!haPrenotazioni){
                     System.out.println("\nUn'altro cliente ha gia prenotato questo libro, quindi al momento non è disponibile.");
-                    System.out.println("Vuoi creare una prenotazione?");
+                    System.out.println("Vuoi creare una prenotazione?(SI(s)/NO(n))");
                     Scanner scan = new Scanner(System.in);
                     String input = scan.next();
-                    if(input.equals("y")){
+                    if(input.equals("s")){
                         this.creaPrenotazione(cliente);
                     }
                     return;
@@ -181,7 +181,7 @@ public class Libro {
             Prestito Storico =new Prestito(cliente,this,impiegati,null,new Date(),null,false);
             Libreria.getInstance().aggiungiPrestito(Storico);
             cliente.aggiungiLibroInPrestito(Storico);
-            System.out.println("\nHai preso in prestito con successo "+this.titolo +"di "+this.autore);
+            System.out.println("\nHai preso in prestito con successo "+this.titolo +" di "+this.autore);
             System.out.println("Prestito creato da "+impiegati.getNome());
         }
 
@@ -194,7 +194,7 @@ public class Libro {
         prestito.pagaMulta();
         long giorni = ChronoUnit.DAYS.between(prestito.getDataInizioPrestito().toInstant(), prestito.getDataFinePrestito().toInstant());
         giorni = 0L - giorni;
-        System.out.println("\n Il libro "+prestito.getLibro().getTitolo()+"è stato restituito dopo " + giorni+" da "+cliente.getNome());
+        System.out.println("\n Il libro "+prestito.getLibro().getTitolo()+" è stato restituito dopo " + giorni+" da "+cliente.getNome());
         System.out.println("Ricevuto da "+ impiegati.getNome());
         }
 }

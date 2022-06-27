@@ -76,10 +76,10 @@ public class Prestito {
         double multaTotale=this.calcolaMulta();
         if(multaTotale>0) {
             System.out.println("Multa totale pari a : " + multaTotale);
-            System.out.println("Vuoi pagarla?");
+            System.out.println("Vuoi pagarla?(SI(s)/NO(n)");
             Scanner input = new Scanner(System.in);
             String scelta = input.next();
-            if (scelta.equals("y")) {
+            if (scelta.equals("s")) {
                 this.setMultaPagata(true);
             }
             if (scelta.equals("n")) {

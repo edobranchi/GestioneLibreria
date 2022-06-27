@@ -4,8 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class Libreria extends DatabaseQuery{
     private String nome = null;
@@ -147,14 +146,14 @@ public class Libreria extends DatabaseQuery{
         if (delete) {
             ArrayList<RichiestaPrestito> richiestaPrestito = libro.getLibriPrenotati();
             if (!richiestaPrestito.isEmpty()) {
-                System.out.println("\nQuesto libro potrebbe essere prenotato cancellare comunque?");
+                System.out.println("\nQuesto libro potrebbe essere prenotato cancellare comunque?(SI(s)/NO(n))");
                 Scanner sc = new Scanner(System.in);
 
                 while (true) {
                     while (true) {
                         String input = sc.next();
-                        if (!input.equals("y") && !input.equals("n")) {
-                            System.out.println("Input non valido (y/n): ");
+                        if (!input.equals("s") && !input.equals("n")) {
+                            System.out.println("Input non valido (SI(s)/NO(n)): ");
                         } else {
                             if (input.equals("n")) {
                                 System.out.println("\nRimozione libro annullata.");
@@ -354,10 +353,6 @@ public class Libreria extends DatabaseQuery{
         password = input.next();
 
         for (int i = 0; i < this.persone.size(); ++i) {
-
-            //System.out.println(i);
-            //System.out.println(this.persone.get(i).getId()+this.persone.get(i).getPassword());
-
             if (this.persone.get(i).getId() == id && this.persone.get(i).getPassword().equals(password)) {
                 System.out.println("\nBenvenuto " + this.persone.get(i).getNome());
                 return this.persone.get(i);
