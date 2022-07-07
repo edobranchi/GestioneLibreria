@@ -104,9 +104,7 @@ public class CreazioneDatabase implements Runnable {
             notifyObservers(100);
 
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (SQLException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

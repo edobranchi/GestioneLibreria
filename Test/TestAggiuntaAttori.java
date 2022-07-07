@@ -1,4 +1,10 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -6,6 +12,71 @@ import static org.junit.Assert.*;
 
 
 public class TestAggiuntaAttori {
+    @BeforeAll
+    static void purgeDB(){
+
+        try {
+            String host = "jdbc:postgresql://[::1]:5432/LIBRERIA?allowMultiQueries=true";  //password edo
+            String uName = "postgres";
+            String uPass = "edo";
+            Connection con = DriverManager.getConnection(host, uName, uPass);
+            Statement stmt = con.createStatement();
+            String SQL = "DROP SCHEMA public CASCADE;";
+            stmt.addBatch(SQL);
+            SQL="CREATE SCHEMA public;";
+            stmt.addBatch(SQL);
+            stmt.executeBatch();
+            stmt = con.createStatement();
+
+
+            String CreateSql = "Create Table Libro(id_libro int primary key, titolo varchar not null, autore varchar not null, genere varchar not null ,in_prestito boolean not null) ";
+            stmt.addBatch(CreateSql);
+            String CreateSql2 = "Create Table Prestito(id_prestito int primary key, libro integer not null, prestante integer not null,ricevente integer, cliente integer not null, data_inizio_prestito timestamp not null,data_fine_prestito timestamp,multa_pagata boolean not null) ";
+            stmt.addBatch(CreateSql2);
+            String CreateSql3 = "Create Table Libraio(id_libraio int primary key, numero_scrivania integer not null) ";
+            stmt.addBatch(CreateSql3);
+            String CreateSql4 = "Create Table Impiegato(id_impiegato int primary key, tipo varchar not null, stipendio double precision) ";
+            stmt.addBatch(CreateSql4);
+            String CreateSql5 = "Create Table Cliente(id_cliente int primary key) ";
+            stmt.addBatch(CreateSql5);
+            String CreateSql6 = "Create Table Cassiere(id_cassiere int primary key,numero_scrivania integer not null) ";
+            stmt.addBatch(CreateSql6);
+            String CreateSql7 = "Create Table Persona(id_persona int primary key, nome_persona varchar not null,password varchar not null,indirizzo varchar not null,numero_telefono integer not null) ";
+            stmt.addBatch(CreateSql7);
+            String CreateSql8 = "Create Table Libro_prenotato(id_prenotazione int primary key, libro integer not null, cliente integer not null,data_prenotazione timestamp) ";
+            stmt.addBatch(CreateSql8);
+            String CreateSql9 = "Create Table Libro_in_prestito(id_libro int primary key, cliente integer not null) ";
+            stmt.addBatch(CreateSql9);
+
+
+            String CreateSql10 = "ALTER TABLE Prestito ADD CONSTRAINT fklibro FOREIGN KEY (libro) REFERENCES Libro (id_libro); ";
+            stmt.addBatch(CreateSql10);
+            String CreateSql11 = "ALTER TABLE Prestito ADD CONSTRAINT fk_prestante FOREIGN KEY (prestante) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql11);
+            String CreateSql12 = "ALTER TABLE Prestito ADD CONSTRAINT fk_ricevente FOREIGN KEY (ricevente) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql12);
+            String CreateSql13 = "ALTER TABLE Prestito ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            stmt.addBatch(CreateSql13);
+            String CreateSql14 = "ALTER TABLE Libraio ADD CONSTRAINT fkid_libraio FOREIGN KEY (id_libraio) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql14);
+            String CreateSql15 = "ALTER TABLE Cassiere ADD CONSTRAINT fkid_cassiere FOREIGN KEY (id_cassiere) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql15);
+            String CreateSql16 = "ALTER TABLE Impiegato ADD CONSTRAINT fk_impiegato FOREIGN KEY (id_impiegato) REFERENCES Persona (id_persona); ";
+            stmt.addBatch(CreateSql16);
+            String CreateSql17 = "ALTER TABLE Cliente ADD CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES Persona (id_persona); ";
+            stmt.addBatch(CreateSql17);
+            String CreateSql18 = "ALTER TABLE Libro_prenotato ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            stmt.addBatch(CreateSql18);
+            String CreateSql19 = "ALTER TABLE Libro_in_prestito ADD CONSTRAINT fk_clente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            stmt.addBatch(CreateSql19);
+
+            stmt.executeBatch();
+
+        } catch (SQLException var5) {
+            System.out.println(var5.getMessage());
+
+        }
+    }
 
     @Test
     void TestAggiuntaCliente() {
@@ -15,9 +86,9 @@ public class TestAggiuntaAttori {
         assertEquals("edo",testcliente.getNome());
         assertEquals("via breddo",testcliente.getIndirizzo());
         assertEquals(2896007L,testcliente.getNumeroTelefono());
-        Libreria.getInstance().aggiungiCliente(testcliente);
-        ArrayList listaclienti=Libreria.getInstance().getPersone();
-        assertEquals(testcliente,listaclienti.get(0));
+        CentroClientiPersonale.getInstance().aggiungiCliente(testcliente);
+        ArrayList listaclienti=CentroClientiPersonale.getInstance().getPersone();
+        assertEquals(testcliente,listaclienti.get(listaclienti.size() -1 ));
 
     }
 
@@ -31,9 +102,9 @@ public class TestAggiuntaAttori {
         assertEquals(2896007L,testcassiere.getNumeroTelefono());
         assertEquals(230.0,testcassiere.getSalario());
         assertEquals(5,testcassiere.numeroScrivania);
-        Libreria.getInstance().aggiungiCassiere(testcassiere);
-        ArrayList listaclienti=Libreria.getInstance().getPersone();
-        assertEquals(testcassiere,listaclienti.get(0));
+        CentroClientiPersonale.getInstance().aggiungiCassiere(testcassiere);
+        ArrayList listaclienti=CentroClientiPersonale.getInstance().getPersone();
+        assertEquals(testcassiere,listaclienti.get(listaclienti.size() -1 ));
 
     }
     @Test
@@ -45,9 +116,9 @@ public class TestAggiuntaAttori {
         assertEquals(2896007L,testlibraio.getNumeroTelefono());
         assertEquals(230.0,testlibraio.getSalario());
         assertEquals(5,testlibraio.numeroUfficio);
-        Libreria.getInstance().aggiungiLibraio(testlibraio);
-        ArrayList listaLibraio=Libreria.getInstance().getPersone();
-        assertEquals(testlibraio,listaLibraio.get(0));
+        CentroClientiPersonale.getInstance().aggiungiLibraio(testlibraio);
+        ArrayList listaLibraio=CentroClientiPersonale.getInstance().getPersone();
+        assertEquals(testlibraio,listaLibraio.get(listaLibraio.size() -1 ));
 
     }
     @Test
@@ -60,7 +131,7 @@ public class TestAggiuntaAttori {
         assertEquals(false, testLibro.isInprestito());
         Libreria.getInstance().aggiungiLibro(testLibro);
         ArrayList listalibri=Libreria.getInstance().getLibri();
-        assertEquals(testLibro,listalibri.get(0));
+        assertEquals(testLibro,listalibri.get(listalibri.size() -1 ));
 
     }
     @Test
@@ -69,8 +140,8 @@ public class TestAggiuntaAttori {
         Cassiere testcassiere=new Cassiere(1,"edo","via breddo",2896007,230,5);
         Libro testLibro=new Libro(1,"IT", "horror","stephen king",false);
         Libreria.getInstance().aggiungiLibro(testLibro);
-        Libreria.getInstance().aggiungiCassiere(testcassiere);         //Aggiunta Attori
-        Libreria.getInstance().aggiungiCliente(testcliente);
+        CentroClientiPersonale.getInstance().aggiungiCassiere(testcassiere);         //Aggiunta Attori
+        CentroClientiPersonale.getInstance().aggiungiCliente(testcliente);
         Date data=new Date();
 
         Prestito testprestito=new Prestito(testcliente,testLibro,testcassiere,null,data,null,true);

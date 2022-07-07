@@ -28,7 +28,7 @@ public class CentroClientiPersonale {
     public boolean aggiungiLibraio(Libraio libraio) {
         if (this.libraio == null) {
             this.libraio = libraio;
-            this.persone.add(this.libraio);
+            persone.add(this.libraio);
             System.out.println("Libraio aggiunto con successo");
             return true;
         } else {
@@ -37,11 +37,11 @@ public class CentroClientiPersonale {
         }
     }
     public void aggiungiCassiere(Cassiere cassiere) {
-        this.persone.add(cassiere);
+        persone.add(cassiere);
     }
 
     public void aggiungiCliente(Cliente cliente) {
-        this.persone.add(cliente);
+        persone.add(cliente);
     }
     public Cliente trovaCliente() {
         System.out.println("\nInserisci l'ID del cliente da trovare: ");
@@ -52,9 +52,9 @@ public class CentroClientiPersonale {
         } catch (InputMismatchException var4) {
             System.out.println("\nInput non valido");
         }
-        for (int i = 0; i < this.persone.size(); ++i) {
-            if (( this.persone.get(i)).getId() == idcliente && ( this.persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
-                return (Cliente) this.persone.get(i);
+        for (int i = 0; i < persone.size(); ++i) {
+            if (( persone.get(i)).getId() == idcliente && ( persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
+                return (Cliente) persone.get(i);
             }
 
         }
@@ -72,9 +72,9 @@ public class CentroClientiPersonale {
         } catch (InputMismatchException var4) {
             System.out.println("\nInput non valido");
         }
-        for (int i = 0; i < this.persone.size(); ++i) {
-            if (this.persone.get(i).getId() == idcassiere && this.persone.get(i).getClass().getSimpleName().equals("Cassiere")) {
-                return (Cassiere) this.persone.get(i);
+        for (int i = 0; i < persone.size(); ++i) {
+            if (persone.get(i).getId() == idcassiere && persone.get(i).getClass().getSimpleName().equals("Cassiere")) {
+                return (Cassiere) persone.get(i);
             }
         }
 
@@ -161,10 +161,10 @@ public class CentroClientiPersonale {
         System.out.println("Inserisci la password ");
         password = input.next();
 
-        for (int i = 0; i < this.persone.size(); ++i) {
-            if (this.persone.get(i).getId() == id && this.persone.get(i).getPassword().equals(password)) {
-                System.out.println("\nBenvenuto " + this.persone.get(i).getNome());
-                return this.persone.get(i);
+        for (int i = 0; i < persone.size(); ++i) {
+            if (persone.get(i).getId() == id && persone.get(i).getPassword().equals(password)) {
+                System.out.println("\nBenvenuto " + persone.get(i).getNome());
+                return persone.get(i);
             }
         }
         if (this.libraio != null && this.libraio.getId() == id && this.libraio.getPassword().equals(password)) {

@@ -85,7 +85,7 @@ public class Libreria extends DatabaseQuery{
                 System.out.println("\nQuesto libro potrebbe essere prenotato cancellare comunque?(SI(s)/NO(n))");
                 Scanner sc = new Scanner(System.in);
 
-                while (true) {
+
                     while (true) {
                         String input = sc.next();
                         if (!input.equals("s") && !input.equals("n")) {
@@ -102,7 +102,7 @@ public class Libreria extends DatabaseQuery{
                             }
                         }
                     }
-                }
+
             }
 
             this.Libri.remove(libro);
