@@ -1,5 +1,5 @@
 import me.tongfei.progressbar.ProgressBar;
-public class avanzamento implements ThreadObserver{
+public class avanzamento implements avanzamentoObserver{
     ProgressBar pb = new ProgressBar("Creazione DB",100);
     @Override
     public void update(int progressoquery) {

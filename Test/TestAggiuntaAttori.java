@@ -88,6 +88,6 @@ public class TestAggiuntaAttori {
 
     }
 
-    //todo:test prenotazione libro
+    //todo:test prenotazione libro LIBRERIA.public.cassiere
 
 }
