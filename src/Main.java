@@ -99,7 +99,7 @@ public class Main {
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.stampaLibriInPrestito();
-                            prestiti = cliente.getLibriPrenotati();
+                            prestiti = cliente.getLibriInPrestito();
                             if (!prestiti.isEmpty()) {
                                 input = inserimento(-1, prestiti.size());
                                 Prestito l = (Prestito) prestiti.get(input);
@@ -115,7 +115,8 @@ public class Main {
                             prestiti = cliente.getLibriPrenotati();
                             if (!prestiti.isEmpty()) {
                                 input = inserimento(-1, prestiti.size());
-                                ((Prestito) prestiti.get(input)).rinnovaPrestito(new Date());
+                                Prestito l = (Prestito) prestiti.get(input);
+                                l.rinnovaPrestito(new Date());
                             } else {
                                 System.out.println("\nQuesto cliente  " + cliente.getNome() + " non ha libri da rinnovare.");
                             }
@@ -129,11 +130,11 @@ public class Main {
                         }
                     } else if (scelta == 11) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                        System.out.println("\nInserisci titolo ");
+                        System.out.println("\nInserisci titolo da aggiungere :");
                         String title = reader.readLine();
-                        System.out.println("\nInserisci genere: ");
+                        System.out.println("\nInserisci genere del libro da aggiungere: ");
                         String subject = reader.readLine();
-                        System.out.println("\nInserisci autore");
+                        System.out.println("\nInserisci autore del libro da aggiungere: ");
                         String author = reader.readLine();
                         libreria.creaLibro(title, subject, author);
                     } else if (scelta == 12) {

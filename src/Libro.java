@@ -111,7 +111,7 @@ public class Libro {
         int i;
         for (i=0;i<cliente.getLibriPrenotati().size();i++){
             if(cliente.getLibriPrenotati().get(i).getLibro()==this){
-                System.out.println("Hai gia "+this.getTitolo() + " in prestito");
+                System.out.println("Hai gia "+this.getTitolo() + " in prenotazione");
                 return;
             }
         }
@@ -185,8 +185,8 @@ public class Libro {
             System.out.println("Prestito creato da "+impiegati.getNome());
         }
 
-        }
-        public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
+    }
+    public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
         prestito.getLibro().setInprestito(false);
         prestito.setDataFinePrestito(new Date());
         prestito.setRicevente(impiegati);
@@ -196,6 +196,6 @@ public class Libro {
         giorni = 0L - giorni;
         System.out.println("\n Il libro "+prestito.getLibro().getTitolo()+" è stato restituito dopo " + giorni+" da "+cliente.getNome());
         System.out.println("Ricevuto da "+ impiegati.getNome());
-        }
+    }
 }
 

@@ -134,38 +134,42 @@ public class Libreria extends DatabaseQuery{
                     System.out.println("\nInserisci l'autore: ");
                     autore = reader.readLine();
                 }
-                ArrayList<Libro> libriCorrispondenti = new ArrayList();
-
-                int i;
-                for (i = 0; i < this.Libri.size(); ++i) {
-                    Libro libro = this.Libri.get(i);
-                    if (choice.equals("1")) {
-                        if (libro.getTitolo().equals(titolo)) {
-                            libriCorrispondenti.add(libro);
-                        }
-                    }
-                    if (choice.equals("2")) {
-                        if (libro.getGenere().equals(genere)) {
-                            libriCorrispondenti.add(libro);
-                        }
-                    }
-                    if (choice.equals("3")) {
-                        if (libro.getAutore().equals(autore)) {
-                            libriCorrispondenti.add(libro);
-                        }
-                    }
-                }
-                if (libriCorrispondenti.isEmpty()) {
-                    System.out.println("\nNon sono stati trovati titoli corrispondenti alla ricerca");
-                    return null;
+                if (this.Libri.isEmpty()) {
+                    System.out.println("Non ci sono libri in libreria");
                 } else {
-                    System.out.println("\nSono stati trovati i seguenti titoli:");
-                    for (i = 0; i < libriCorrispondenti.size(); ++i) {
-                        System.out.print(i + "-\t\t");
-                        libriCorrispondenti.get(i).stampaInfo();
-                        System.out.print("\n");
+                    ArrayList<Libro> libriCorrispondenti = new ArrayList();
+
+                    int i;
+                    for (i = 0; i < this.Libri.size(); ++i) {
+                        Libro libro = this.Libri.get(i);
+                        if (choice.equals("1")) {
+                            if (libro.getTitolo().equals(titolo)) {
+                                libriCorrispondenti.add(libro);
+                            }
+                        }
+                        if (choice.equals("2")) {
+                            if (libro.getGenere().equals(genere)) {
+                                libriCorrispondenti.add(libro);
+                            }
+                        }
+                        if (choice.equals("3")) {
+                            if (libro.getAutore().equals(autore)) {
+                                libriCorrispondenti.add(libro);
+                            }
+                        }
                     }
-                    return libriCorrispondenti;
+                    if (libriCorrispondenti.isEmpty()) {
+                        System.out.println("\nNon sono stati trovati titoli corrispondenti alla ricerca");
+                        return null;
+                    } else {
+                        System.out.println("\nSono stati trovati i seguenti titoli:");
+                        for (i = 0; i < libriCorrispondenti.size(); ++i) {
+                            System.out.print(i + "-\t\t");
+                            libriCorrispondenti.get(i).stampaInfo();
+                            System.out.print("\n");
+                        }
+                        return libriCorrispondenti;
+                    }
                 }
             }
             System.out.println("\nInput errato");
@@ -206,7 +210,7 @@ public class Libreria extends DatabaseQuery{
     public void creaLibro(String titolo, String genere, String autore) {
         Libro libro = new Libro(-1, titolo, genere, autore, false);
         this.aggiungiLibro(libro);
-        System.out.println("Libro con titolo " + libro.getTitolo() + " di " + libro.getAutore() + " e genere " + libro.getGenere() + " aggiunto alla libreria");
+        System.out.println("Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
     }
 
 

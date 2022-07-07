@@ -233,15 +233,15 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 //SELECT id_persona,libro era qui sotto
-        SQL = "SELECT id_persona FROM persona INNER JOIN Cliente ON id_persona=id_cliente INNER JOIN libro_in_prestito ON id_cliente=cliente ";
+        SQL = "SELECT id_persona,id_libro FROM persona INNER JOIN Cliente ON id_persona=id_cliente INNER JOIN libro_in_prestito ON id_cliente=cliente ";
         rs = stmt.executeQuery(SQL);
         if (!rs.next()) {
             System.out.println("Nessun cliente ha ancora preso in prestito un libro dalla libreria");
         } else {
             do {
                 id = rs.getInt("id_persona");
-                bokid = rs.getInt("libro");
-                bb = null;
+                bokid = rs.getInt("id_libro");
+                bb=null;
                 set = true;
                 boolean okay = true;
 
@@ -265,12 +265,12 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 
-        ArrayList<Persona> persons = CentroClientiPersonale.getPersone();
+        ArrayList<Persona> persone = CentroClientiPersonale.getPersone();
         bokid = 0;
 
-        for(i = 0; i < persons.size(); ++i) {
-            if (bokid < (persons.get(i)).getId()) {
-                bokid = (persons.get(i)).getId();
+        for(i = 0; i < persone.size(); ++i) {
+            if (bokid < (persone.get(i)).getId()) {
+                bokid = (persone.get(i)).getId();
             }
         }
 
