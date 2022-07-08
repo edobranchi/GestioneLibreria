@@ -129,7 +129,7 @@ public class DatabaseQuery{
             do {
                 id = rs.getInt("cliente");
                 bokid = rs.getInt("libro");
-                i = rs.getInt("prestante");
+                int pres = rs.getInt("prestante");
                 Integer rid = (Integer)rs.getObject("ricevente");
                 rd = 0;
                 java.util.Date idate = new java.util.Date(rs.getTimestamp("data_inizio_prestito").getTime());
@@ -156,13 +156,11 @@ public class DatabaseQuery{
                 set = true;
                 Impiegati[] s = new Impiegati[2];
                 int k;
-                if (i == ccp.getLibraio().getId()) {
-
-
+                if (pres == ccp.getLibraio().getId()) {
                     s[0] = ccp.getLibraio();
                 } else {
                     for(k = 0; k < CentroClientiPersonale.getPersone().size() && set; ++k) {
-                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == i && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
+                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == pres && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
                             s[0] = (Cassiere) CentroClientiPersonale.getPersone().get(k);
                         }
@@ -246,7 +244,11 @@ public class DatabaseQuery{
                 boolean okay = true;
 
                 for(i = 0; i < CentroClientiPersonale.getPersone().size() && set; ++i) {
-                    if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("cliente") && (CentroClientiPersonale.getPersone().get(i)).getId() == id) {
+
+
+
+
+                    if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cliente") && (CentroClientiPersonale.getPersone().get(i)).getId() == id) {
                         set = false;
                         bb = (Cliente) CentroClientiPersonale.getPersone().get(i);
                     }

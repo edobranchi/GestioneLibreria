@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -90,6 +91,8 @@ public class TestAggiuntaAttori {
         ArrayList listaclienti=CentroClientiPersonale.getInstance().getPersone();
         assertEquals(testcliente,listaclienti.get(listaclienti.size() -1 ));
 
+
+
     }
 
     @Test
@@ -159,6 +162,44 @@ public class TestAggiuntaAttori {
 
     }
 
-    //todo:test prenotazione libro LIBRERIA.public.cassiere
+    @Test
+    void testPrenotazione(){
+        Cliente testcliente=new Cliente(1,"edo","via breddo",2896007);
+        Libro testLibro=new Libro(1,"IT", "horror","stephen king",false);
+        Libreria.getInstance().aggiungiLibro(testLibro);
+        CentroClientiPersonale.getInstance().aggiungiCliente(testcliente);
+
+        testLibro.creaPrenotazione(testcliente);
+
+        ArrayList listaprenotazioni= testcliente.getLibriPrenotati();
+        assertEquals(((RichiestaPrestito)listaprenotazioni.get(0)).getCliente().getId(),testcliente.getId());
+        assertEquals(((RichiestaPrestito)listaprenotazioni.get(0)).getLibro().getIdlibro(),testLibro.getIdlibro());
+
+    }
+    @Test
+    void testMulta(){
+        Libro testLibro=new Libro(1,"IT", "horror","stephen king",false);
+        Cliente testcliente=new Cliente(1,"edo","via breddo",2896007);
+        Cassiere testcassiere=new Cassiere(1,"edo","via breddo",2896007,230,5);
+        Libreria.getInstance().aggiungiLibro(testLibro);
+        CentroClientiPersonale.getInstance().aggiungiCassiere(testcassiere);         //Aggiunta Attori
+        CentroClientiPersonale.getInstance().aggiungiCliente(testcliente);
+        Date data=new Date();
+
+        Prestito testprestito=new Prestito(testcliente,testLibro,testcassiere,null,data,null,true);
+        Libreria.getInstance().aggiungiPrestito(testprestito);
+
+        testprestito.setRicevente(testcassiere);
+        int mese=data.getMonth();
+        Date datafine=new Date();
+        datafine.setMonth(mese+2);
+        testprestito.setDataFinePrestito(datafine);
+        testprestito.setMultaPagata(false);
+        double multa= testprestito.calcolaMulta();
+        assertFalse(Double.isNaN(multa));
+
+
+
+    }
 
 }

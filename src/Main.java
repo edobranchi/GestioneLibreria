@@ -69,11 +69,26 @@ public class Main {
                 } else if (scelta == 4) {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         double totalFine = libreria.calcolaMultaTotale((Cliente) persona);
-                        System.out.println("\nLa tua multa totale è: " + totalFine);
+                        //System.out.println("\nLa tua multa totale è: " + totalFine);
+                        for(int i=0;i<libreria.getPrestiti().size();i++){
+                            if(libreria.getPrestiti().get(i).getCliente().getId()== persona.getId()){
+                                libreria.getPrestiti().get(i).pagaMulta();
+                            }
+                        }
+
                     } else {
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             double totalFine = libreria.calcolaMultaTotale(cliente);
+
+                            //TODO: farla pagare direttamente qui senza chiamare pagamulta()
+                            for(int i=0;i<libreria.getPrestiti().size();i++){
+                            if(libreria.getPrestiti().get(i).getCliente().getId()== cliente.getId()){
+                                libreria.getPrestiti().get(i).pagaMulta();
+                            }
+                            }
+
+
                             System.out.println("\nLa tua multa totale è: " + totalFine);
                         }
                     }

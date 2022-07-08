@@ -188,7 +188,7 @@ public class Libro {
     }
     public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
         prestito.getLibro().setInprestito(false);
-        prestito.setDataFinePrestito(new Date());
+        prestito.setDataFinePrestito(new Date(2022,11,20));
         prestito.setRicevente(impiegati);
         cliente.rimuoviLibroInPrestito(prestito);
         prestito.pagaMulta();

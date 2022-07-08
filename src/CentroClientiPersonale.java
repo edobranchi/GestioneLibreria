@@ -22,6 +22,7 @@ public class CentroClientiPersonale {
     public Libraio getLibraio() {
         return libraio;
     }
+
     public static ArrayList<Persona> getPersone() {
         return persone;
     }

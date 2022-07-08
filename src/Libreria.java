@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -193,7 +194,7 @@ public class Libreria extends DatabaseQuery{
 
     public double calcolaMultaTotale(Cliente cliente) {
         double multaTotale = 0.0;
-        double multaPerLibro = 0.0;
+        double multaPerLibro;
         for (int i = 0; i < this.prestiti.size(); ++i) {
             Prestito prestito = this.prestiti.get(i);
             if (prestito.getCliente() == cliente) {
@@ -219,11 +220,11 @@ public class Libreria extends DatabaseQuery{
         if (!this.prestiti.isEmpty()) {
             System.out.println("\nLibri in prestito: ");
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.println("Numero libro.\tTitotlo\tNome cliente\t Nome cassiere prestito\t\tData inizio prestito\t\t\tNome cassiere ritiro\t\tData restituzione\t\tMulta pagata");
+            System.out.println("Numero libro.\t\t\tTitolo\t\t\t\tNome cliente\t Prestante\t\t\tData inizio prestito\t\t\tRicevente\t\tData restituzione\t\tMulta pagata");
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < this.prestiti.size(); ++i) {
                 if (this.prestiti.get(i).getPrestante() != null) {
-                    System.out.print(i + "-\t" + this.prestiti.get(i).getLibro().getTitolo() + "\t\t\t" + this.prestiti.get(i).getCliente().getNome() + "\t\t" + this.prestiti.get(i).getPrestante().getNome() + "\t    " + this.prestiti.get(i).getDataInizioPrestito());
+                    System.out.print(i + "-\t\t\t" + this.prestiti.get(i).getLibro().getTitolo() + "\t\t" + this.prestiti.get(i).getCliente().getNome() + "\t\t\t" + this.prestiti.get(i).getPrestante().getNome() + "\t\t\t   " + this.prestiti.get(i).getDataInizioPrestito());
                 }
 
                 if (this.prestiti.get(i).getRicevente() != null) {
