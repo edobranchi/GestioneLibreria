@@ -46,14 +46,14 @@ public class Cliente extends Persona {
     public void aggiornaInformazioniCliente() throws IOException {
         Scanner scan = new Scanner(System.in);
         BufferedReader buffreader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Vuoi cambiare il nome di " + this.getNome() + " ?");
+        System.out.println("Vuoi cambiare il nome di " + this.getNome() + " ? (S/N)");
         String scelta = scan.next();
         if (scelta.equals("s")) {
             System.out.println("Inserire nuovo nome");
             this.setNome(buffreader.readLine());
             System.out.println("Nome aggiornato con successo!");
         }
-        System.out.println("Vuoi cambiare il l'indirizzo di " + this.getNome() + " ?");
+        System.out.println("Vuoi cambiare il l'indirizzo di " + this.getNome() + " ? (S/N)");
         scelta = scan.next();
         if (scelta.equals("s")) {
             System.out.println("Inserire nuovo indirizzo");
@@ -61,7 +61,7 @@ public class Cliente extends Persona {
             System.out.println("Indirizzo aggiornato con successo!");
 
         }
-        System.out.println("Vuoi cambiare il numero telefonico di " + this.getNome() + " ?");
+        System.out.println("Vuoi cambiare il numero telefonico di " + this.getNome() + " ? (S/N)");
         scelta = scan.next();
         if (scelta.equals("s")) {
             System.out.println("Inserire nuovo numero telefonico");

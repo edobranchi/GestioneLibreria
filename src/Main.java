@@ -33,6 +33,7 @@ public class Main {
 
     public static void funzionalita(Persona persona, int scelta) throws IOException {
         Libreria libreria = Libreria.getInstance();
+        CentroClientiPersonale ccp= CentroClientiPersonale.getInstance();
         Scanner scanner = new Scanner(System.in);
         if (scelta == 1) {
             libreria.ricercaLibro();
@@ -49,7 +50,7 @@ public class Main {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         libro.creaPrenotazione((Cliente) persona);
                     } else {
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             libro.creaPrenotazione(cliente);
                         }
@@ -60,7 +61,7 @@ public class Main {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         persona.stampaInfo();
                     } else {
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.stampaInfo();
                         }
@@ -68,12 +69,38 @@ public class Main {
                 } else if (scelta == 4) {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         double totalFine = libreria.calcolaMultaTotale((Cliente) persona);
+                        if(totalFine!=0){
                         System.out.println("\nLa tua multa totale è: " + totalFine);
+                        }else {
+                            System.out.println("\nNon ci sono multe da pagare.");
+                        }
+                        for(int i=0;i<libreria.getPrestiti().size();i++){
+                            if(libreria.getPrestiti().get(i).getCliente().getId()== persona.getId()){
+                                if(libreria.getPrestiti().get(i).calcolaMulta()>0){
+                                    System.out.println("\nMulta : "+ i );
+                                }
+                                libreria.getPrestiti().get(i).pagaMulta();
+                            }
+                        }
+
                     } else {
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             double totalFine = libreria.calcolaMultaTotale(cliente);
-                            System.out.println("\nLa tua multa totale è: " + totalFine);
+                            if(totalFine!=0){
+                                System.out.println("\nLa tua multa totale è: " + totalFine);
+                            }else {
+                                System.out.println("\nNon ci sono multe da pagare.");
+                            }
+                            for(int i=0;i<libreria.getPrestiti().size();i++){
+                            if(libreria.getPrestiti().get(i).getCliente().getId()== cliente.getId()){
+                                if(libreria.getPrestiti().get(i).calcolaMulta()>0){
+                                    System.out.println("\nMulta : "+ i );
+                                }
+                                libreria.getPrestiti().get(i).pagaMulta();
+                            }
+                            }
+
                         }
                     }
                 } else if (scelta == 5) {
@@ -87,7 +114,7 @@ public class Main {
                     if (libri != null) {
                         input = inserimento(-1, libri.size());
                         libro = (Libro) libri.get(input);
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             libro.libroInPrestito(cliente, (Impiegati) persona);
                         }
@@ -95,10 +122,10 @@ public class Main {
                 } else {
                     ArrayList prestiti;
                     if (scelta == 7) {
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.stampaLibriInPrestito();
-                            prestiti = cliente.getLibriPrenotati();
+                            prestiti = cliente.getLibriInPrestito();
                             if (!prestiti.isEmpty()) {
                                 input = inserimento(-1, prestiti.size());
                                 Prestito l = (Prestito) prestiti.get(input);
@@ -108,31 +135,32 @@ public class Main {
                             }
                         }
                     } else if (scelta == 8) {
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.stampaLibriInPrestito();
                             prestiti = cliente.getLibriPrenotati();
                             if (!prestiti.isEmpty()) {
                                 input = inserimento(-1, prestiti.size());
-                                ((Prestito) prestiti.get(input)).rinnovaPrestito(new Date());
+                                Prestito l = (Prestito) prestiti.get(input);
+                                l.rinnovaPrestito(new Date());
                             } else {
                                 System.out.println("\nQuesto cliente  " + cliente.getNome() + " non ha libri da rinnovare.");
                             }
                         }
                     } else if (scelta == 9) {
-                        libreria.creaPersona('b');
+                        ccp.creaPersona('b');
                     } else if (scelta == 10) {
-                        cliente = libreria.trovaCliente();
+                        cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.aggiornaInformazioniCliente();
                         }
                     } else if (scelta == 11) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                        System.out.println("\nInserisci titolo ");
+                        System.out.println("\nInserisci titolo da aggiungere :");
                         String title = reader.readLine();
-                        System.out.println("\nInserisci genere: ");
+                        System.out.println("\nInserisci genere del libro da aggiungere: ");
                         String subject = reader.readLine();
-                        System.out.println("\nInserisci autore");
+                        System.out.println("\nInserisci autore del libro da aggiungere: ");
                         String author = reader.readLine();
                         libreria.creaLibro(title, subject, author);
                     } else if (scelta == 12) {
@@ -148,7 +176,7 @@ public class Main {
                             ((Libro) libri.get(input)).cambiaInfoLibro();
                         }
                     } else if (scelta == 14) {
-                        Cassiere clerk = libreria.trovaCassiere();
+                        Cassiere clerk = ccp.trovaCassiere();
                         if (clerk != null) {
                             clerk.stampaInfo();
                         }
@@ -164,16 +192,17 @@ public class Main {
         try {
             Scanner admin = new Scanner(System.in);
             Libreria lib = Libreria.getInstance();
+            CentroClientiPersonale ccp=CentroClientiPersonale.getInstance();
             lib.setMulta_al_giorno(20);
             lib.setScadenza_prestiti(5);
             lib.setScadenza_prenotazioni(7);
-            lib.setNome("Libreria");
+
             Connection con = lib.makeConnection();
             if (con == null) {
                 System.out.println("\nErrore nella connessione al DB");
             } else {
                 try {
-                    lib.populateLibrary(con, lib);
+                    lib.populateLibrary(con, lib,ccp);
                     boolean stop = false;
 
                     while (!stop) {
@@ -210,9 +239,9 @@ public class Main {
                                     }
 
                                     if (scelta == 1) {
-                                        lib.creaPersona('c');
+                                        ccp.creaPersona('c');
                                     } else if (scelta == 2) {
-                                        lib.creaPersona('l');
+                                        ccp.creaPersona('l');
                                     } else if (scelta == 3) {
                                         lib.stampaStorico();
                                     } else if (scelta == 4) {
@@ -226,7 +255,7 @@ public class Main {
                                 System.out.println("\nPassword errata");
                             }
                         } else if (scelta == 1) {
-                            Persona persona = lib.login();
+                            Persona persona = ccp.login();
                             if (persona != null) {
                                 if (persona.getClass().getSimpleName().equals("Cliente")) {
                                     while (true) {
@@ -315,7 +344,7 @@ public class Main {
                         System.in.read();
                     }
 
-                    lib.riempiDB(con, lib);
+                    lib.riempiDB(con, lib,ccp);
                 } catch (Exception var7) {
                     var7.printStackTrace();
                     System.out.println("\nEsco...\n");
@@ -325,7 +354,8 @@ public class Main {
     }finally {
             Libreria lib= Libreria.getInstance();
             Connection con = lib.makeConnection();
-            lib.riempiDB(con,lib);
+            CentroClientiPersonale ccp=CentroClientiPersonale.getInstance();
+            lib.riempiDB(con,lib,ccp);
         }
 
     }

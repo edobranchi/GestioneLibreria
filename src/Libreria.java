@@ -1,15 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class Libreria extends DatabaseQuery{
-    private String nome = null;
-    private Libraio libraio = null;
-    private final ArrayList<Persona> persone = new ArrayList();
+
+
     private final ArrayList<Libro> Libri = new ArrayList();
     private final ArrayList<Prestito> prestiti = new ArrayList();
     public int scadenza_prestiti=15;
@@ -38,18 +38,8 @@ public class Libreria extends DatabaseQuery{
         this.scadenza_prenotazioni = scadenza_prenotazioni;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
 
-    public Libraio getLibraio() {
-        return libraio;
-    }
-
-    public ArrayList<Persona> getPersone() {
-        return persone;
-    }
 
     public ArrayList<Libro> getLibri() {
         return Libri;
@@ -63,68 +53,15 @@ public class Libreria extends DatabaseQuery{
         return scadenza_prenotazioni;
     }
 
-    public boolean aggiungiLibraio(Libraio libraio) {
-        if (this.libraio == null) {
-            this.libraio = libraio;
-            this.persone.add(this.libraio);
-            System.out.println("Libraio aggiunto con successo");
-            return true;
-        } else {
-            System.out.println("Impossibile aggiungere libraio perchè esiste già");
-            return false;
-        }
-    }
 
-    public void aggiungiCassiere(Cassiere cassiere) {
-        this.persone.add(cassiere);
-    }
 
-    public void aggiungiCliente(Cliente cliente) {
-        this.persone.add(cliente);
-    }
+
 
     public void aggiungiPrestito(Prestito prestito) {
         this.prestiti.add(prestito);
     }
 
-    public Cliente trovaCliente() {
-        System.out.println("\nInserisci l'ID del cliente da trovare: ");
-        int idcliente = 0;
-        Scanner scanner = new Scanner(System.in);
-        try {
-            idcliente = scanner.nextInt();
-        } catch (InputMismatchException var4) {
-            System.out.println("\nInput non valido");
-        }
-        for (int i = 0; i < this.persone.size(); ++i) {
-            if (( this.persone.get(i)).getId() == idcliente && ( this.persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
-                return (Cliente) this.persone.get(i);
-            }
 
-        }
-        System.out.println("\nNon sono presenti clienti con quell' ID");
-        return null;
-    }
-
-    public Cassiere trovaCassiere() {
-        System.out.println("\nInserisci ID cassiere: ");
-        int idcassiere = 0;
-        Scanner scanner = new Scanner(System.in);
-
-        try {
-            idcassiere = scanner.nextInt();
-        } catch (InputMismatchException var4) {
-            System.out.println("\nInput non valido");
-        }
-        for (int i = 0; i < this.persone.size(); ++i) {
-            if (this.persone.get(i).getId() == idcassiere && this.persone.get(i).getClass().getSimpleName().equals("Cassiere")) {
-                return (Cassiere) this.persone.get(i);
-            }
-        }
-
-        System.out.println("\nNon esiste nessun cassiere con quell'ID.");
-        return null;
-    }
 
     public void aggiungiLibro(Libro libro) {
         this.Libri.add(libro);
@@ -132,9 +69,9 @@ public class Libreria extends DatabaseQuery{
 
     public void rimuoviLibro(Libro libro) {
         boolean delete = true;
-        for (int i = 0; i < this.persone.size() && delete; ++i) {
-            if (this.persone.get(i).getClass().getSimpleName().equals("Cliente")) {
-                ArrayList<Prestito> libriPrestito = ((Cliente) this.persone.get(i)).getLibriInPrestito();
+        for (int i = 0; i < CentroClientiPersonale.getPersone().size() && delete; ++i) {
+            if (CentroClientiPersonale.getPersone().get(i).getClass().getSimpleName().equals("Cliente")) {
+                ArrayList<Prestito> libriPrestito = ((Cliente) CentroClientiPersonale.getPersone().get(i)).getLibriInPrestito();
                 for (int j = 0; i < libriPrestito.size() && delete; ++j) {
                     if (libriPrestito.get(j).getLibro() == libro) {
                         delete = false;
@@ -149,7 +86,7 @@ public class Libreria extends DatabaseQuery{
                 System.out.println("\nQuesto libro potrebbe essere prenotato cancellare comunque?(SI(s)/NO(n))");
                 Scanner sc = new Scanner(System.in);
 
-                while (true) {
+
                     while (true) {
                         String input = sc.next();
                         if (!input.equals("s") && !input.equals("n")) {
@@ -166,7 +103,7 @@ public class Libreria extends DatabaseQuery{
                             }
                         }
                     }
-                }
+
             }
 
             this.Libri.remove(libro);
@@ -198,38 +135,42 @@ public class Libreria extends DatabaseQuery{
                     System.out.println("\nInserisci l'autore: ");
                     autore = reader.readLine();
                 }
-                ArrayList<Libro> libriCorrispondenti = new ArrayList();
-
-                int i;
-                for (i = 0; i < this.Libri.size(); ++i) {
-                    Libro libro = this.Libri.get(i);
-                    if (choice.equals("1")) {
-                        if (libro.getTitolo().equals(titolo)) {
-                            libriCorrispondenti.add(libro);
-                        }
-                    }
-                    if (choice.equals("2")) {
-                        if (libro.getGenere().equals(genere)) {
-                            libriCorrispondenti.add(libro);
-                        }
-                    }
-                    if (choice.equals("3")) {
-                        if (libro.getAutore().equals(autore)) {
-                            libriCorrispondenti.add(libro);
-                        }
-                    }
-                }
-                if (libriCorrispondenti.isEmpty()) {
-                    System.out.println("\nNon sono stati trovati titoli corrispondenti alla ricerca");
-                    return null;
+                if (this.Libri.isEmpty()) {
+                    System.out.println("Non ci sono libri in libreria");
                 } else {
-                    System.out.println("\nSono stati trovati i seguenti titoli:");
-                    for (i = 0; i < libriCorrispondenti.size(); ++i) {
-                        System.out.print(i + "-\t\t");
-                        libriCorrispondenti.get(i).stampaInfo();
-                        System.out.print("\n");
+                    ArrayList<Libro> libriCorrispondenti = new ArrayList();
+
+                    int i;
+                    for (i = 0; i < this.Libri.size(); ++i) {
+                        Libro libro = this.Libri.get(i);
+                        if (choice.equals("1")) {
+                            if (libro.getTitolo().equals(titolo)) {
+                                libriCorrispondenti.add(libro);
+                            }
+                        }
+                        if (choice.equals("2")) {
+                            if (libro.getGenere().equals(genere)) {
+                                libriCorrispondenti.add(libro);
+                            }
+                        }
+                        if (choice.equals("3")) {
+                            if (libro.getAutore().equals(autore)) {
+                                libriCorrispondenti.add(libro);
+                            }
+                        }
                     }
-                    return libriCorrispondenti;
+                    if (libriCorrispondenti.isEmpty()) {
+                        System.out.println("\nNon sono stati trovati titoli corrispondenti alla ricerca");
+                        return null;
+                    } else {
+                        System.out.println("\nSono stati trovati i seguenti titoli:");
+                        for (i = 0; i < libriCorrispondenti.size(); ++i) {
+                            System.out.print(i + "-\t\t");
+                            libriCorrispondenti.get(i).stampaInfo();
+                            System.out.print("\n");
+                        }
+                        return libriCorrispondenti;
+                    }
                 }
             }
             System.out.println("\nInput errato");
@@ -253,7 +194,7 @@ public class Libreria extends DatabaseQuery{
 
     public double calcolaMultaTotale(Cliente cliente) {
         double multaTotale = 0.0;
-        double multaPerLibro = 0.0;
+        double multaPerLibro;
         for (int i = 0; i < this.prestiti.size(); ++i) {
             Prestito prestito = this.prestiti.get(i);
             if (prestito.getCliente() == cliente) {
@@ -265,118 +206,25 @@ public class Libreria extends DatabaseQuery{
         return multaTotale;
     }
 
-    public void creaPersona(char x) {
-        Scanner scan = new Scanner(System.in);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nInserisci nome persona da creare: ");
-        String nome = "";
-        try {
-            nome = reader.readLine();
-        } catch (IOException var14) {
-           System.out.println("\nInput non valido");
-        }
-        System.out.println("Inserisci indirizzo ");
 
-        String indirizzo = "";
-
-        try {
-            indirizzo = reader.readLine();
-        } catch (IOException var13) {
-            System.out.println("\nInput non valido");
-        }
-
-        long numerotelefono = 0;
-
-        try {
-            System.out.println("Inserisci numero di telefono: ");
-            numerotelefono = scan.nextLong();
-        } catch (InputMismatchException var12) {
-            System.out.println("\nInput non valido");
-        }
-        double salario;
-        if (x == 'c') {
-            salario = 0.0;
-            try {
-                System.out.println("Inserisci stipendio: ");
-                salario = scan.nextDouble();
-            } catch (InputMismatchException var11) {
-                System.out.println("\nInput non valido");
-            }
-            Cassiere cassiere = new Cassiere(-1, nome, indirizzo, numerotelefono, salario, -1);
-            this.aggiungiCassiere(cassiere);
-            System.out.println("\nCreato cassiere di nome " + nome + " con successo.");
-            System.out.println("\nIl tuo ID è : " + cassiere.getId());
-            System.out.println("Your Password is : " + cassiere.getPassword());
-        } else if (x == 'l') {
-            salario = 0.0;
-
-            try {
-                System.out.println("Inserisci stipendio:");
-                salario = scan.nextDouble();
-            } catch (InputMismatchException var10) {
-                System.out.println("\nInput non valido");
-            }
-
-            Libraio libraio = new Libraio(-1, nome, indirizzo, numerotelefono, salario, -1);
-            if (this.aggiungiLibraio(libraio)) {
-                System.out.println("\nLibraio con nome " + nome + " creato con successo.");
-                System.out.println("\nIl tuo ID è: " + libraio.getId());
-                System.out.println("La tua password è : " + libraio.getPassword());
-            }
-        } else {
-            Cliente cliente = new Cliente(-1, nome, indirizzo, numerotelefono);
-            this.aggiungiCliente(cliente);
-            System.out.println("\nCliente con nome " + nome + " creato con successo.");
-            System.out.println("\nIl tuo id è : " + cliente.getId());
-            System.out.println("La tua password è : " + cliente.getPassword());
-        }
-
-    }
 
     public void creaLibro(String titolo, String genere, String autore) {
         Libro libro = new Libro(-1, titolo, genere, autore, false);
         this.aggiungiLibro(libro);
-        System.out.println("Libro con titolo " + libro.getTitolo() + " di " + libro.getAutore() + " e genere " + libro.getGenere() + " aggiunto alla libreria");
+        System.out.println("Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
     }
 
-    public Persona login() {
-        Scanner input = new Scanner(System.in);
-        int id = 0;
-        String password = "";
-        System.out.println("\nInserisci il tuo ID: ");
-        try {
-            id = input.nextInt();
-        } catch (InputMismatchException var5) {
-            System.out.println("\nInput non valido");
-        }
-        System.out.println("Inserisci la password ");
-        password = input.next();
 
-        for (int i = 0; i < this.persone.size(); ++i) {
-            if (this.persone.get(i).getId() == id && this.persone.get(i).getPassword().equals(password)) {
-                System.out.println("\nBenvenuto " + this.persone.get(i).getNome());
-                return this.persone.get(i);
-            }
-        }
-        if (this.libraio != null && this.libraio.getId() == id && this.libraio.getPassword().equals(password)) {
-            System.out.println("\nBenvenuto " + this.libraio.getNome());
-            return this.libraio;
-        } else {
-            System.out.println("\nID o Password non corrette");
-            return null;
-        }
-
-    }
 
     public void stampaStorico() {
         if (!this.prestiti.isEmpty()) {
             System.out.println("\nLibri in prestito: ");
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.println("Numero libro.\tTitotlo\tNome cliente\t Nome cassiere prestito\t\tData inizio prestito\t\t\tNome cassiere ritiro\t\tData restituzione\t\tMulta pagata");
+            System.out.println("Numero libro.\t\t\tTitolo\t\t\t\tNome cliente\t Prestante\t\t\tData inizio prestito\t\t\tRicevente\t\tData restituzione\t\tMulta pagata");
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < this.prestiti.size(); ++i) {
                 if (this.prestiti.get(i).getPrestante() != null) {
-                    System.out.print(i + "-\t" + this.prestiti.get(i).getLibro().getTitolo() + "\t\t\t" + this.prestiti.get(i).getCliente().getNome() + "\t\t" + this.prestiti.get(i).getPrestante().getNome() + "\t    " + this.prestiti.get(i).getDataInizioPrestito());
+                    System.out.print(i + "-\t\t\t" + this.prestiti.get(i).getLibro().getTitolo() + "\t\t" + this.prestiti.get(i).getCliente().getNome() + "\t\t\t" + this.prestiti.get(i).getPrestante().getNome() + "\t\t\t   " + this.prestiti.get(i).getDataInizioPrestito());
                 }
 
                 if (this.prestiti.get(i).getRicevente() != null) {

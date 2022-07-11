@@ -15,8 +15,9 @@ public class DatabaseQuery{
         }
     }
 
-    public void populateLibrary(Connection con,Libreria libreria) throws SQLException, InterruptedException {
+    public void populateLibrary(Connection con,Libreria libreria,CentroClientiPersonale centrocp) throws SQLException, InterruptedException {
         Libreria lib = libreria;
+        CentroClientiPersonale ccp=centrocp;
         Statement stmt = con.createStatement();
         DatabaseMetaData dbm = con.getMetaData();
         ResultSet tables = dbm.getTables(null, null, "libro", null);
@@ -77,7 +78,7 @@ public class DatabaseQuery{
                 i = rs.getInt("numero_scrivania");
                 Cassiere c = new Cassiere(id, name,adrs, phn, sal, i);
                 c.setPassword(psw);
-                lib.aggiungiCassiere(c);
+                ccp.aggiungiCassiere(c);
             } while(rs.next());
         }
 
@@ -96,7 +97,7 @@ public class DatabaseQuery{
                 i = rs.getInt("numero_scrivania");
                 Libraio l = new Libraio(id, name, adrs, phn, sal, i);
                 l.setPassword(psw);
-                lib.aggiungiLibraio(l);
+                ccp.aggiungiLibraio(l);
             } while(rs.next());
         }
 
@@ -114,7 +115,7 @@ public class DatabaseQuery{
                 phn = rs.getInt("numero_telefono");
                 bb = new Cliente(id, name, adrs, phn);
                 bb.setPassword(psw);
-                lib.aggiungiCliente(bb);
+                ccp.aggiungiCliente(bb);
             } while(rs.next());
         }
 
@@ -128,7 +129,7 @@ public class DatabaseQuery{
             do {
                 id = rs.getInt("cliente");
                 bokid = rs.getInt("libro");
-                i = rs.getInt("prestante");
+                int pres = rs.getInt("prestante");
                 Integer rid = (Integer)rs.getObject("ricevente");
                 rd = 0;
                 java.util.Date idate = new java.util.Date(rs.getTimestamp("data_inizio_prestito").getTime());
@@ -145,25 +146,23 @@ public class DatabaseQuery{
                 //Cliente
                         bb = null;
 
-                for( i = 0; i < lib.getPersone().size() && set; ++i) {
-                    if ((lib.getPersone().get(i)).getId() == id) {
+                for(i = 0; i < CentroClientiPersonale.getPersone().size() && set; ++i) {
+                    if ((CentroClientiPersonale.getPersone().get(i)).getId() == id) {
                         set = false;
-                        bb = (Cliente)lib.getPersone().get(i);
+                        bb = (Cliente) CentroClientiPersonale.getPersone().get(i);
                     }
                 }
 
                 set = true;
                 Impiegati[] s = new Impiegati[2];
                 int k;
-                if (i == lib.getLibraio().getId()) {
-
-
-                    s[0] = lib.getLibraio();
+                if (pres == ccp.getLibraio().getId()) {
+                    s[0] = ccp.getLibraio();
                 } else {
-                    for(k = 0; k < lib.getPersone().size() && set; ++k) {
-                        if ((lib.getPersone().get(k)).getId() == i && (lib.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
+                    for(k = 0; k < CentroClientiPersonale.getPersone().size() && set; ++k) {
+                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == pres && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
-                            s[0] = (Cassiere)lib.getPersone().get(k);
+                            s[0] = (Cassiere) CentroClientiPersonale.getPersone().get(k);
                         }
                     }
                 }
@@ -172,13 +171,13 @@ public class DatabaseQuery{
                 if (rid == null) {
                     s[1] = null;
                     rdate = null;
-                } else if (rd == lib.getLibraio().getId()) {
-                    s[1] = lib.getLibraio();
+                } else if (rd == ccp.getLibraio().getId()) {
+                    s[1] = ccp.getLibraio();
                 } else {
-                    for(k = 0; k < lib.getPersone().size() && set; ++k) {
-                        if ((lib.getPersone().get(k)).getId() == rd && (lib.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
+                    for(k = 0; k < CentroClientiPersonale.getPersone().size() && set; ++k) {
+                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == rd && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
-                            s[1] = (Cassiere)lib.getPersone().get(k);
+                            s[1] = (Cassiere) CentroClientiPersonale.getPersone().get(k);
                         }
                     }
                 }
@@ -209,7 +208,7 @@ public class DatabaseQuery{
                 java.util.Date off = new java.util.Date(rs.getDate("data_prenotazione").getTime());
                 set = true;
                 bb = null;
-                books = lib.getPersone();
+                books = CentroClientiPersonale.getPersone();
 
                 for(i = 0; i < books.size() && set; ++i) {
                     if (((Persona)books.get(i)).getId() == id) {
@@ -232,22 +231,26 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 //SELECT id_persona,libro era qui sotto
-        SQL = "SELECT id_persona FROM persona INNER JOIN Cliente ON id_persona=id_cliente INNER JOIN libro_in_prestito ON id_cliente=cliente ";
+        SQL = "SELECT id_persona,id_libro FROM persona INNER JOIN Cliente ON id_persona=id_cliente INNER JOIN libro_in_prestito ON id_cliente=cliente ";
         rs = stmt.executeQuery(SQL);
         if (!rs.next()) {
             System.out.println("Nessun cliente ha ancora preso in prestito un libro dalla libreria");
         } else {
             do {
                 id = rs.getInt("id_persona");
-                bokid = rs.getInt("libro");
-                bb = null;
+                bokid = rs.getInt("id_libro");
+                bb=null;
                 set = true;
                 boolean okay = true;
 
-                for(i = 0; i < lib.getPersone().size() && set; ++i) {
-                    if ((lib.getPersone().get(i)).getClass().getSimpleName().equals("cliente") && (lib.getPersone().get(i)).getId() == id) {
+                for(i = 0; i < CentroClientiPersonale.getPersone().size() && set; ++i) {
+
+
+
+
+                    if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cliente") && (CentroClientiPersonale.getPersone().get(i)).getId() == id) {
                         set = false;
-                        bb = (Cliente) lib.getPersone().get(i);
+                        bb = (Cliente) CentroClientiPersonale.getPersone().get(i);
                     }
                 }
 
@@ -264,19 +267,19 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 
-        ArrayList<Persona> persons = lib.getPersone();
+        ArrayList<Persona> persone = CentroClientiPersonale.getPersone();
         bokid = 0;
 
-        for(i = 0; i < persons.size(); ++i) {
-            if (bokid < (persons.get(i)).getId()) {
-                bokid = (persons.get(i)).getId();
+        for(i = 0; i < persone.size(); ++i) {
+            if (bokid < (persone.get(i)).getId()) {
+                bokid = (persone.get(i)).getId();
             }
         }
 
         Persona.setNumeroIdAttuale(bokid);
     }
 
-    public void riempiDB(Connection con,Libreria libreria) throws SQLException{
+    public void riempiDB(Connection con,Libreria libreria,CentroClientiPersonale ccp) throws SQLException{
         System.out.println("Salvataggio e chiusura in corso...");
         String template = "DELETE FROM public.prestito";
         PreparedStatement stmts = con.prepareStatement(template);
@@ -309,52 +312,52 @@ public class DatabaseQuery{
 
         int i;
         PreparedStatement stmt;
-        for(i = 0; i < lib.getPersone().size(); ++i) {
+        for(i = 0; i < CentroClientiPersonale.getPersone().size(); ++i) {
             template = "INSERT INTO persona (id_persona,nome_persona,password,indirizzo,numero_telefono) values (?,?,?,?,?)";
             stmt = con.prepareStatement(template);
-            stmt.setInt(1, (lib.getPersone().get(i)).getId());
-            stmt.setString(2, (lib.getPersone().get(i)).getNome());
-            stmt.setString(3, (lib.getPersone().get(i)).getPassword());
-            stmt.setString(4, (lib.getPersone().get(i)).getIndirizzo());
-            stmt.setLong(5, (lib.getPersone().get(i)).getNumeroTelefono());
+            stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());
+            stmt.setString(2, (CentroClientiPersonale.getPersone().get(i)).getNome());
+            stmt.setString(3, (CentroClientiPersonale.getPersone().get(i)).getPassword());
+            stmt.setString(4, (CentroClientiPersonale.getPersone().get(i)).getIndirizzo());
+            stmt.setLong(5, (CentroClientiPersonale.getPersone().get(i)).getNumeroTelefono());
             stmt.executeUpdate();
         }
 
-        for(i = 0; i < lib.getPersone().size(); ++i) {
-            if ((lib.getPersone().get(i)).getClass().getSimpleName().equals("Cassiere")) {
+        for(i = 0; i < CentroClientiPersonale.getPersone().size(); ++i) {
+            if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cassiere")) {
                 template = "INSERT INTO impiegato (id_impiegato,tipo,stipendio) values (?,?,?)";
                 stmt = con.prepareStatement(template);
-                stmt.setInt(1, (lib.getPersone().get(i)).getId());
+                stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());
                 stmt.setString(2, "Cassiere");
-                stmt.setDouble(3, ((Cassiere)lib.getPersone().get(i)).getSalario());
+                stmt.setDouble(3, ((Cassiere) CentroClientiPersonale.getPersone().get(i)).getSalario());
                 stmt.executeUpdate();
                 template = "INSERT INTO Cassiere (id_cassiere,numero_scrivania) values (?,?)";
                 stmt = con.prepareStatement(template);
-                stmt.setInt(1, (lib.getPersone().get(i)).getId());
-                stmt.setInt(2, ((Cassiere)lib.getPersone().get(i)).numeroScrivania);
+                stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());
+                stmt.setInt(2, ((Cassiere) CentroClientiPersonale.getPersone().get(i)).numeroScrivania);
                 stmt.executeUpdate();
             }
         }
 
-        if (lib.getLibraio() != null) {
+        if (ccp.getLibraio() != null) {
             template = "INSERT INTO impiegato (id_impiegato,tipo,stipendio) values (?,?,?)";
             stmt = con.prepareStatement(template);
-            stmt.setInt(1, lib.getLibraio().getId());
+            stmt.setInt(1, ccp.getLibraio().getId());
             stmt.setString(2, "Libraio");
-            stmt.setDouble(3, lib.getLibraio().getSalario());
+            stmt.setDouble(3, ccp.getLibraio().getSalario());
             stmt.executeUpdate();
             template = "INSERT INTO Libraio (id_libraio,numero_scrivania) values (?,?)";
             stmt = con.prepareStatement(template);
-            stmt.setInt(1, lib.getLibraio().getId());
-            stmt.setInt(2, lib.getLibraio().numeroUfficio);
+            stmt.setInt(1, ccp.getLibraio().getId());
+            stmt.setInt(2, ccp.getLibraio().numeroUfficio);
             stmt.executeUpdate();
         }
 
-        for(i = 0; i < lib.getPersone().size(); ++i) {
-            if ((lib.getPersone().get(i)).getClass().getSimpleName().equals("Cliente")) {
+        for(i = 0; i < CentroClientiPersonale.getPersone().size(); ++i) {
+            if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cliente")) {
                 template = "INSERT INTO cliente(id_cliente) values (?)";
                 stmt = con.prepareStatement(template);
-                stmt.setInt(1, (lib.getPersone().get(i)).getId());
+                stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());
                 stmt.executeUpdate();
             }
         }
