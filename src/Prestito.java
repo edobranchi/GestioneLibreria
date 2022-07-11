@@ -72,23 +72,21 @@ public class Prestito {
         }
         return multa;
      }
-     public void pagaMulta(){ //TODO: fixare stampa multipla
+     public double pagaMulta(){ //TODO: fixare stampa multipla
         double multaTotale=this.calcolaMulta();
         if(multaTotale>0) {
-            System.out.println("Multa totale pari a : " + multaTotale);
             System.out.println("Vuoi pagarla?(SI(s)/NO(n)");
             Scanner input = new Scanner(System.in);
             String scelta = input.next();
             if (scelta.equals("s")) {
                 this.setMultaPagata(true);
+                System.out.println("Multa pagata con Successo.");
             }
             if (scelta.equals("n")) {
                 this.setMultaPagata(false);
             }
-        } else {
-            System.out.println("Non ci sono multe da pagare");
         }
-
+return multaTotale;
      }
      public void rinnovaPrestito(Date dataInizioPrestito){
         this.dataInizioPrestito=dataInizioPrestito;

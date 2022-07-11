@@ -69,9 +69,16 @@ public class Main {
                 } else if (scelta == 4) {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         double totalFine = libreria.calcolaMultaTotale((Cliente) persona);
-                        //System.out.println("\nLa tua multa totale è: " + totalFine);
+                        if(totalFine!=0){
+                        System.out.println("\nLa tua multa totale è: " + totalFine);
+                        }else {
+                            System.out.println("\nNon ci sono multe da pagare.");
+                        }
                         for(int i=0;i<libreria.getPrestiti().size();i++){
                             if(libreria.getPrestiti().get(i).getCliente().getId()== persona.getId()){
+                                if(libreria.getPrestiti().get(i).calcolaMulta()>0){
+                                    System.out.println("\nMulta : "+ i );
+                                }
                                 libreria.getPrestiti().get(i).pagaMulta();
                             }
                         }
@@ -80,16 +87,21 @@ public class Main {
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             double totalFine = libreria.calcolaMultaTotale(cliente);
-
-                            //TODO: farla pagare direttamente qui senza chiamare pagamulta()
+                            if(totalFine!=0){
+                                System.out.println("\nLa tua multa totale è: " + totalFine);
+                            }else {
+                                System.out.println("\nNon ci sono multe da pagare.");
+                            }
+                            //TODO: sistemare multa dai profili di libraio e cassiere
                             for(int i=0;i<libreria.getPrestiti().size();i++){
                             if(libreria.getPrestiti().get(i).getCliente().getId()== cliente.getId()){
+                                if(libreria.getPrestiti().get(i).calcolaMulta()>0){
+                                    System.out.println("\nMulta : "+ i );
+                                }
                                 libreria.getPrestiti().get(i).pagaMulta();
                             }
                             }
 
-
-                            System.out.println("\nLa tua multa totale è: " + totalFine);
                         }
                     }
                 } else if (scelta == 5) {
