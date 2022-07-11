@@ -120,13 +120,13 @@ Il programma prevede 3 livelli di autorizazzione ogniuno con diversi tipi di fun
 
     Possibilità di stampare le informazioni personali di un cassiere.
 
-##Sommario persistenza dei dati e DB:
+## Sommario persistenza dei dati e DB:
 
-E' previsto un sistema di salvataggio dati su DB esterno.
-In particolare è stato usato PostGreSQL.
+   E' previsto un sistema di salvataggio dati su DB esterno.
+   In particolare è stato usato PostGreSQL.
 
-Il sistema prevede la creazione del database al primo avvio nel caso non esistesse utilizzando delle credenziali di accesso di default.
-La comunicazione frà applicativo e database non avviene in maniera sincrona, all'avvio il sistema carica il contenuto del database nei vari array utilizzati dal programma, durante l'esecuzione i suddetti array verranno modificati ma saranno effettivamente modificati nel DB solo al momento della chiusura del programma scegliendo l'opzione "ESCI" dal menù.
+   Il sistema prevede la creazione del database al primo avvio nel caso non esistesse utilizzando delle credenziali di accesso di default.
+   La comunicazione frà applicativo e database non avviene in maniera sincrona, all'avvio il sistema carica il contenuto del database nei vari array utilizzati dal programma, durante l'esecuzione i suddetti array verranno modificati ma saranno effettivamente modificati nel DB solo al momento della chiusura del programma scegliendo l'opzione "ESCI" dal menù.
 
 
 
