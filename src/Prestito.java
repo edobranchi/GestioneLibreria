@@ -72,7 +72,7 @@ public class Prestito {
         }
         return multa;
      }
-     public double pagaMulta(){ //TODO: fixare stampa multipla
+     public double pagaMulta(){
         double multaTotale=this.calcolaMulta();
         if(multaTotale>0) {
             System.out.println("Vuoi pagarla?(SI(s)/NO(n)");

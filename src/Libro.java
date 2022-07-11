@@ -181,19 +181,19 @@ public class Libro {
             Prestito Storico =new Prestito(cliente,this,impiegati,null,new Date(),null,false);
             Libreria.getInstance().aggiungiPrestito(Storico);
             cliente.aggiungiLibroInPrestito(Storico);
-            System.out.println("\nHai preso in prestito con successo "+this.titolo +" di "+this.autore);
+            System.out.println("\n"+ cliente.nome+ " ha preso in prestito con successo "+this.titolo +" di "+this.autore);
             System.out.println("Prestito creato da "+impiegati.getNome());
         }
 
     }
     public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
         prestito.getLibro().setInprestito(false);
-        prestito.setDataFinePrestito(new Date(2022,11,20));
+        prestito.setDataFinePrestito(new Date());
         prestito.setRicevente(impiegati);
         cliente.rimuoviLibroInPrestito(prestito);
-        prestito.pagaMulta();
+        prestito.calcolaMulta();
         long giorni = ChronoUnit.DAYS.between(prestito.getDataInizioPrestito().toInstant(), prestito.getDataFinePrestito().toInstant());
-        giorni = 0L - giorni;
+        giorni = - giorni;
         System.out.println("\n Il libro "+prestito.getLibro().getTitolo()+" è stato restituito dopo " + giorni+" da "+cliente.getNome());
         System.out.println("Ricevuto da "+ impiegati.getNome());
     }

@@ -92,7 +92,6 @@ public class Main {
                             }else {
                                 System.out.println("\nNon ci sono multe da pagare.");
                             }
-                            //TODO: sistemare multa dai profili di libraio e cassiere
                             for(int i=0;i<libreria.getPrestiti().size();i++){
                             if(libreria.getPrestiti().get(i).getCliente().getId()== cliente.getId()){
                                 if(libreria.getPrestiti().get(i).calcolaMulta()>0){
