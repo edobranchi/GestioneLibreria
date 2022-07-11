@@ -1,5 +1,3 @@
-import me.tongfei.progressbar.ProgressBar;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,17 +9,15 @@ public class CreazioneDatabase implements Runnable {
 
 
     private final List<avanzamento> observers;
-    ProgressBar pb = new ProgressBar("Prova",100);
 
     private final Connection con;
-    private final Libreria lib;
 
 
 
 
-    public  CreazioneDatabase(Connection con,Libreria libreria){
+    public  CreazioneDatabase(Connection con){
         this.con=con;
-        this.lib=libreria;
+
         observers=new ArrayList<>();
     }
     public void addObserver(avanzamento obs) {

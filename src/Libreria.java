@@ -1,17 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class Libreria extends DatabaseQuery{
 
 
-    private final ArrayList<Libro> Libri = new ArrayList();
-    private final ArrayList<Prestito> prestiti = new ArrayList();
+    private final ArrayList<Libro> Libri = new ArrayList<>();
+    private final ArrayList<Prestito> prestiti = new ArrayList<>();
     public int scadenza_prestiti=15;
     public int multa_al_giorno=30;
     public int scadenza_prenotazioni;
@@ -138,7 +136,7 @@ public class Libreria extends DatabaseQuery{
                 if (this.Libri.isEmpty()) {
                     System.out.println("Non ci sono libri in libreria");
                 } else {
-                    ArrayList<Libro> libriCorrispondenti = new ArrayList();
+                    ArrayList<Libro> libriCorrispondenti = new ArrayList<>();
 
                     int i;
                     for (i = 0; i < this.Libri.size(); ++i) {

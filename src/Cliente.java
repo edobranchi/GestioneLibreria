@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cliente extends Persona {
-    private final ArrayList<Prestito> libriInPrestito = new ArrayList();
-    private final ArrayList<RichiestaPrestito> libriPrenotati = new ArrayList();
+    private final ArrayList<Prestito> libriInPrestito = new ArrayList<>();
+    private final ArrayList<RichiestaPrestito> libriPrenotati = new ArrayList<>();
 
     public Cliente(int id, String nome, String indirizzo, long numeroTelefono) {
         super(id, nome, indirizzo, numeroTelefono);

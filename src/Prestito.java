@@ -59,7 +59,7 @@ public class Prestito {
             Date fine=this.dataFinePrestito;
             if(fine!=null){
                 long giorniritardo = ChronoUnit.DAYS.between(fine.toInstant(), inizio.toInstant());
-                giorniritardo =0L - giorniritardo;
+                giorniritardo =-giorniritardo;
                 giorniritardo -= Libreria.getInstance().scadenza_prestiti;
                 if (giorniritardo > 0L) {
                 multa = (double)giorniritardo * Libreria.getInstance().multa_al_giorno;
@@ -72,7 +72,7 @@ public class Prestito {
         }
         return multa;
      }
-     public double pagaMulta(){
+     public void pagaMulta(){
         double multaTotale=this.calcolaMulta();
         if(multaTotale>0) {
             System.out.println("Vuoi pagarla?(SI(s)/NO(n)");
@@ -86,7 +86,6 @@ public class Prestito {
                 this.setMultaPagata(false);
             }
         }
-return multaTotale;
      }
      public void rinnovaPrestito(Date dataInizioPrestito){
         this.dataInizioPrestito=dataInizioPrestito;

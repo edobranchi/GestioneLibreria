@@ -34,11 +34,10 @@ public class Main {
     public static void funzionalita(Persona persona, int scelta) throws IOException {
         Libreria libreria = Libreria.getInstance();
         CentroClientiPersonale ccp= CentroClientiPersonale.getInstance();
-        Scanner scanner = new Scanner(System.in);
         if (scelta == 1) {
             libreria.ricercaLibro();
         } else {
-            ArrayList libri;
+            ArrayList<Libro> libri;
             Libro libro;
             Cliente cliente;
             int input;
@@ -46,7 +45,7 @@ public class Main {
                 libri = libreria.ricercaLibro();
                 if (libri != null) {
                     input = inserimento(-1, libri.size());
-                    libro = (Libro) libri.get(input);
+                    libro = libri.get(input);
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         libro.creaPrenotazione((Cliente) persona);
                     } else {
@@ -107,13 +106,13 @@ public class Main {
                     libri = libreria.ricercaLibro();
                     if (libri != null) {
                         input = inserimento(-1, libri.size());
-                        ((Libro) libri.get(input)).stampaPrenotazioni();
+                        libri.get(input).stampaPrenotazioni();
                     }
                 } else if (scelta == 6) {
                     libri = libreria.ricercaLibro();
                     if (libri != null) {
                         input = inserimento(-1, libri.size());
-                        libro = (Libro) libri.get(input);
+                        libro = libri.get(input);
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             libro.libroInPrestito(cliente, (Impiegati) persona);
@@ -167,13 +166,13 @@ public class Main {
                         libri = libreria.ricercaLibro();
                         if (libri != null) {
                             input = inserimento(-1, libri.size());
-                            libreria.rimuoviLibro((Libro) libri.get(input));
+                            libreria.rimuoviLibro(libri.get(input));
                         }
                     } else if (scelta == 13) {
                         libri = libreria.ricercaLibro();
                         if (libri != null) {
                             input = inserimento(-1, libri.size());
-                            ((Libro) libri.get(input)).cambiaInfoLibro();
+                            libri.get(input).cambiaInfoLibro();
                         }
                     } else if (scelta == 14) {
                         Cassiere clerk = ccp.trovaCassiere();

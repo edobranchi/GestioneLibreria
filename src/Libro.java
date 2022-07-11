@@ -26,7 +26,7 @@ public class Libro {
         this.autore=autore;
         this.genere=genere;
         this.inprestito=inprestito;
-        this.libriPrenotati=new ArrayList();
+        this.libriPrenotati=new ArrayList<>();
     }
     public void aggiungiPrenotazione(RichiestaPrestito libpre){
 

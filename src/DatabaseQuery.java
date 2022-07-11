@@ -24,7 +24,7 @@ public class DatabaseQuery{
 
         if (!tables.next()) {
             System.out.println("Il database non esiste, lo creo.");
-            CreazioneDatabase init=new CreazioneDatabase(con,lib);
+            CreazioneDatabase init=new CreazioneDatabase(con);
             Thread thread=new Thread(init);
             thread.start();
             thread.join();
@@ -241,7 +241,6 @@ public class DatabaseQuery{
                 bokid = rs.getInt("id_libro");
                 bb=null;
                 set = true;
-                boolean okay = true;
 
                 for(i = 0; i < CentroClientiPersonale.getPersone().size() && set; ++i) {
 
