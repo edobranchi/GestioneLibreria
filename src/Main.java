@@ -34,6 +34,7 @@ public class Main {
     public static void funzionalita(Persona persona, int scelta) throws IOException {
         Libreria libreria = Libreria.getInstance();
         CentroClientiPersonale ccp= CentroClientiPersonale.getInstance();
+        //Ricerca di un libro [INPUT 1]
         if (scelta == 1) {
             libreria.ricercaLibro();
         } else {
@@ -41,6 +42,7 @@ public class Main {
             Libro libro;
             Cliente cliente;
             int input;
+            //Prenotazione di un libro [INPUT 2]
             if (scelta == 2) {
                 libri = libreria.ricercaLibro();
                 if (libri != null) {
@@ -56,6 +58,7 @@ public class Main {
                     }
                 }
             } else {
+                //Stampa dati personali[INPUT 3]
                 if (scelta == 3) {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         persona.stampaInfo();
@@ -65,7 +68,9 @@ public class Main {
                             cliente.stampaInfo();
                         }
                     }
-                } else if (scelta == 4) {
+                }
+                //Controllo Multe [INPUT 4]
+                else if (scelta == 4) {
                     if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
                         double totalFine = libreria.calcolaMultaTotale((Cliente) persona);
                         if(totalFine!=0){
@@ -102,13 +107,17 @@ public class Main {
 
                         }
                     }
-                } else if (scelta == 5) {
+                }
+                //Controllo coda di prenotazione di un libro [INPUT 5]
+                else if (scelta == 5) {
                     libri = libreria.ricercaLibro();
                     if (libri != null) {
                         input = inserimento(-1, libri.size());
                         libri.get(input).stampaPrenotazioni();
                     }
-                } else if (scelta == 6) {
+                }
+                //Prestito libro [INPUT 6], Solo cassiere e libraio
+                else if (scelta == 6) {
                     libri = libreria.ricercaLibro();
                     if (libri != null) {
                         input = inserimento(-1, libri.size());
@@ -120,6 +129,7 @@ public class Main {
                     }
                 } else {
                     ArrayList prestiti;
+                    //Rientro libro da un prestito [INPUT 7], Solo cassiere e libraio
                     if (scelta == 7) {
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
@@ -133,7 +143,9 @@ public class Main {
                                 System.out.println("\nIl cliente " + cliente.getNome() + " non ha libri in prestito");
                             }
                         }
-                    } else if (scelta == 8) {
+                    }
+                    //Rinnovo libro [INPUT 8], Solo cassiere e libraio
+                    else if (scelta == 8) {
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.stampaLibriInPrestito();
@@ -146,14 +158,20 @@ public class Main {
                                 System.out.println("\nQuesto cliente  " + cliente.getNome() + " non ha libri da rinnovare.");
                             }
                         }
-                    } else if (scelta == 9) {
+                    }
+                    //Creazione cliente [INPUT 9], Solo cassiere e libraio
+                    else if (scelta == 9) {
                         ccp.creaPersona('b');
-                    } else if (scelta == 10) {
+                    }
+                    //Aggiornamento informazioni [INPUT 10], Solo cassiere e libraio
+                    else if (scelta == 10) {
                         cliente = ccp.trovaCliente();
                         if (cliente != null) {
                             cliente.aggiornaInformazioniCliente();
                         }
-                    } else if (scelta == 11) {
+                    }
+                    //Aggiunta nuovo libro [INPUT 11], Solo libraio
+                    else if (scelta == 11) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                         System.out.println("\nInserisci titolo da aggiungere :");
                         String title = reader.readLine();
@@ -162,19 +180,25 @@ public class Main {
                         System.out.println("\nInserisci autore del libro da aggiungere: ");
                         String author = reader.readLine();
                         libreria.creaLibro(title, subject, author);
-                    } else if (scelta == 12) {
+                    }
+                    //Rimozione libro [INPUT 12], Solo libraio
+                    else if (scelta == 12) {
                         libri = libreria.ricercaLibro();
                         if (libri != null) {
                             input = inserimento(-1, libri.size());
                             libreria.rimuoviLibro(libri.get(input));
                         }
-                    } else if (scelta == 13) {
+                    }
+                    //Cambio informazioni libro [INPUT 13], Solo libraio
+                    else if (scelta == 13) {
                         libri = libreria.ricercaLibro();
                         if (libri != null) {
                             input = inserimento(-1, libri.size());
                             libri.get(input).cambiaInfoLibro();
                         }
-                    } else if (scelta == 14) {
+                    }
+                    //Stampa informazioni cassiere [INPUT 14], Solo libraio
+                    else if (scelta == 14) {
                         Cassiere clerk = ccp.trovaCassiere();
                         if (clerk != null) {
                             clerk.stampaInfo();
