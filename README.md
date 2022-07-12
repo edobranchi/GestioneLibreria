@@ -129,7 +129,9 @@ Il programma prevede 3 livelli di autorizazzione ogniuno con diversi tipi di fun
    La comunicazione frà applicativo e database non avviene in maniera sincrona, all'avvio il sistema carica il contenuto del database nei vari array utilizzati dal programma, durante l'esecuzione i suddetti array verranno modificati ma saranno effettivamente modificati nel DB solo al momento della chiusura del programma scegliendo l'opzione "ESCI" dal menù.
 
 
+### Diagramma E-R database:
 
+![ERLIBRERIA](https://user-images.githubusercontent.com/28054437/178505768-215b2d89-b834-456c-bf1e-561a00fbfd00.jpg)
 
 
 
