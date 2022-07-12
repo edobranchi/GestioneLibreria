@@ -1,3 +1,8 @@
+package Persone;
+
+import Libri.Prestito;
+import Libri.RichiestaPrestito;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,7 +29,7 @@ public class Cliente extends Persona {
         } else {
             System.out.println("Libri in prestito:");
             for (int i = 0; i < this.libriInPrestito.size(); i++) {
-                System.out.println("ID Libro: " + i);
+                System.out.println("ID Libri.Libro: " + i);
                 this.libriInPrestito.get(i).getLibro().stampaInfo();
             }
         }
@@ -36,7 +41,7 @@ public class Cliente extends Persona {
         } else {
             System.out.println("Libri prenotati:");
             for (int i = 0; i < this.libriPrenotati.size(); i++) {
-                System.out.println("ID Libro: " + i);
+                System.out.println("ID Libri.Libro: " + i);
                 this.libriPrenotati.get(i).getLibro().stampaInfo();
 
             }

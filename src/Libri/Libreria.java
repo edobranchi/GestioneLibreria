@@ -1,3 +1,9 @@
+package Libri;
+
+import DatabaseUtility.DatabaseQuery;
+import Persone.CentroClientiPersonale;
+import Persone.Cliente;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -5,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Libreria extends DatabaseQuery{
+public class Libreria extends DatabaseQuery {
 
 
     private final ArrayList<Libro> Libri = new ArrayList<>();
@@ -68,7 +74,7 @@ public class Libreria extends DatabaseQuery{
     public void rimuoviLibro(Libro libro) {
         boolean delete = true;
         for (int i = 0; i < CentroClientiPersonale.getPersone().size() && delete; ++i) {
-            if (CentroClientiPersonale.getPersone().get(i).getClass().getSimpleName().equals("Cliente")) {
+            if (CentroClientiPersonale.getPersone().get(i).getClass().getSimpleName().equals("Persone.Cliente")) {
                 ArrayList<Prestito> libriPrestito = ((Cliente) CentroClientiPersonale.getPersone().get(i)).getLibriInPrestito();
                 for (int j = 0; i < libriPrestito.size() && delete; ++j) {
                     if (libriPrestito.get(j).getLibro() == libro) {
@@ -105,7 +111,7 @@ public class Libreria extends DatabaseQuery{
             }
 
             this.Libri.remove(libro);
-            System.out.println("Libro rimosso con successo");
+            System.out.println("Libri.Libro rimosso con successo");
         } else {
             System.out.println("\nCancellazione annullata");
         }
@@ -209,7 +215,7 @@ public class Libreria extends DatabaseQuery{
     public void creaLibro(String titolo, String genere, String autore) {
         Libro libro = new Libro(-1, titolo, genere, autore, false);
         this.aggiungiLibro(libro);
-        System.out.println("Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
+        System.out.println("Libri.Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
     }
 
 

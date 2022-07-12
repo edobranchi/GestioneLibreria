@@ -1,3 +1,5 @@
+package DatabaseUtility;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,15 +40,15 @@ public class CreazioneDatabase implements Runnable {
             stmt = con.createStatement();
 
 
-            String CreateSql = "Create Table Libro(id_libro int primary key, titolo varchar not null, autore varchar not null, genere varchar not null ,in_prestito boolean not null) ";
+            String CreateSql = "Create Table Libri.Libro(id_libro int primary key, titolo varchar not null, autore varchar not null, genere varchar not null ,in_prestito boolean not null) ";
             notifyObservers(10);
             stmt.addBatch(CreateSql);
             Thread.sleep(1000);
-            String CreateSql2 = "Create Table Prestito(id_prestito int primary key, libro integer not null, prestante integer not null,ricevente integer, cliente integer not null, data_inizio_prestito timestamp not null,data_fine_prestito timestamp,multa_pagata boolean not null) ";
+            String CreateSql2 = "Create Table Libri.Prestito(id_prestito int primary key, libro integer not null, prestante integer not null,ricevente integer, cliente integer not null, data_inizio_prestito timestamp not null,data_fine_prestito timestamp,multa_pagata boolean not null) ";
             notifyObservers(20);
             stmt.addBatch(CreateSql2);
             Thread.sleep(1000);
-            String CreateSql3 = "Create Table Libraio(id_libraio int primary key, numero_scrivania integer not null) ";
+            String CreateSql3 = "Create Table Persone.Libraio(id_libraio int primary key, numero_scrivania integer not null) ";
             notifyObservers(30);
             stmt.addBatch(CreateSql3);
             Thread.sleep(1000);
@@ -54,15 +56,15 @@ public class CreazioneDatabase implements Runnable {
             notifyObservers(40);
             stmt.addBatch(CreateSql4);
             Thread.sleep(1000);
-            String CreateSql5 = "Create Table Cliente(id_cliente int primary key) ";
+            String CreateSql5 = "Create Table Persone.Cliente(id_cliente int primary key) ";
             notifyObservers(50);
             stmt.addBatch(CreateSql5);
             Thread.sleep(1000);
-            String CreateSql6 = "Create Table Cassiere(id_cassiere int primary key,numero_scrivania integer not null) ";
+            String CreateSql6 = "Create Table Persone.Cassiere(id_cassiere int primary key,numero_scrivania integer not null) ";
             notifyObservers(60);
             stmt.addBatch(CreateSql6);
             Thread.sleep(1000);
-            String CreateSql7 = "Create Table Persona(id_persona int primary key, nome_persona varchar not null,password varchar not null,indirizzo varchar not null,numero_telefono integer not null) ";
+            String CreateSql7 = "Create Table Persone.Persona(id_persona int primary key, nome_persona varchar not null,password varchar not null,indirizzo varchar not null,numero_telefono integer not null) ";
             notifyObservers(70);
             stmt.addBatch(CreateSql7);
             Thread.sleep(1000);
@@ -75,25 +77,25 @@ public class CreazioneDatabase implements Runnable {
             stmt.addBatch(CreateSql9);
             Thread.sleep(1000);
 
-            String CreateSql10 = "ALTER TABLE Prestito ADD CONSTRAINT fklibro FOREIGN KEY (libro) REFERENCES Libro (id_libro); ";
+            String CreateSql10 = "ALTER TABLE Libri.Prestito ADD CONSTRAINT fklibro FOREIGN KEY (libro) REFERENCES Libri.Libro (id_libro); ";
             stmt.addBatch(CreateSql10);
-            String CreateSql11 = "ALTER TABLE Prestito ADD CONSTRAINT fk_prestante FOREIGN KEY (prestante) REFERENCES Impiegato (id_impiegato); ";
+            String CreateSql11 = "ALTER TABLE Libri.Prestito ADD CONSTRAINT fk_prestante FOREIGN KEY (prestante) REFERENCES Impiegato (id_impiegato); ";
             stmt.addBatch(CreateSql11);
-            String CreateSql12 = "ALTER TABLE Prestito ADD CONSTRAINT fk_ricevente FOREIGN KEY (ricevente) REFERENCES Impiegato (id_impiegato); ";
+            String CreateSql12 = "ALTER TABLE Libri.Prestito ADD CONSTRAINT fk_ricevente FOREIGN KEY (ricevente) REFERENCES Impiegato (id_impiegato); ";
             stmt.addBatch(CreateSql12);
-            String CreateSql13 = "ALTER TABLE Prestito ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            String CreateSql13 = "ALTER TABLE Libri.Prestito ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Persone.Cliente (id_cliente); ";
             stmt.addBatch(CreateSql13);
-            String CreateSql14 = "ALTER TABLE Libraio ADD CONSTRAINT fkid_libraio FOREIGN KEY (id_libraio) REFERENCES Impiegato (id_impiegato); ";
+            String CreateSql14 = "ALTER TABLE Persone.Libraio ADD CONSTRAINT fkid_libraio FOREIGN KEY (id_libraio) REFERENCES Impiegato (id_impiegato); ";
             stmt.addBatch(CreateSql14);
-            String CreateSql15 = "ALTER TABLE Cassiere ADD CONSTRAINT fkid_cassiere FOREIGN KEY (id_cassiere) REFERENCES Impiegato (id_impiegato); ";
+            String CreateSql15 = "ALTER TABLE Persone.Cassiere ADD CONSTRAINT fkid_cassiere FOREIGN KEY (id_cassiere) REFERENCES Impiegato (id_impiegato); ";
             stmt.addBatch(CreateSql15);
-            String CreateSql16 = "ALTER TABLE Impiegato ADD CONSTRAINT fk_impiegato FOREIGN KEY (id_impiegato) REFERENCES Persona (id_persona); ";
+            String CreateSql16 = "ALTER TABLE Impiegato ADD CONSTRAINT fk_impiegato FOREIGN KEY (id_impiegato) REFERENCES Persone.Persona (id_persona); ";
             stmt.addBatch(CreateSql16);
-            String CreateSql17 = "ALTER TABLE Cliente ADD CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES Persona (id_persona); ";
+            String CreateSql17 = "ALTER TABLE Persone.Cliente ADD CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES Persone.Persona (id_persona); ";
             stmt.addBatch(CreateSql17);
-            String CreateSql18 = "ALTER TABLE Libro_prenotato ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            String CreateSql18 = "ALTER TABLE Libro_prenotato ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Persone.Cliente (id_cliente); ";
             stmt.addBatch(CreateSql18);
-            String CreateSql19 = "ALTER TABLE Libro_in_prestito ADD CONSTRAINT fk_clente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            String CreateSql19 = "ALTER TABLE Libro_in_prestito ADD CONSTRAINT fk_clente FOREIGN KEY (cliente) REFERENCES Persone.Cliente (id_cliente); ";
             stmt.addBatch(CreateSql19);
             notifyObservers(100);
             stmt.executeBatch();

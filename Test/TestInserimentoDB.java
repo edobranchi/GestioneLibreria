@@ -55,7 +55,7 @@ public class TestInserimentoDB {
 
         SQL ="DELETE FROM cliente WHERE id_cliente=1;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
 
     }
@@ -80,11 +80,11 @@ public class TestInserimentoDB {
         assertEquals("1",rs.getString(1));
         assertEquals("26",rs.getString(2));
 
-        SQL ="DELETE FROM Cassiere WHERE id_cassiere=1;";
+        SQL ="DELETE FROM Persone.Cassiere WHERE id_cassiere=1;";
         stmt.executeUpdate(SQL);
         SQL = "DELETE FROM Impiegato WHERE id_impiegato=1";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
     }
 
@@ -113,7 +113,7 @@ public class TestInserimentoDB {
 
         SQL ="DELETE FROM Impiegato WHERE id_impiegato=1;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
     }
 
@@ -142,7 +142,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM Impiegato WHERE id_impiegato=1;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
     }
 
@@ -171,7 +171,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM cliente WHERE id_cliente=24;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persona WHERE id_persona=24";
+        SQL = "DELETE FROM Persone.Persona WHERE id_persona=24";
         stmt.executeUpdate(SQL);
     }
 
@@ -203,7 +203,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM cliente WHERE id_cliente=54;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persona WHERE id_persona=54";
+        SQL = "DELETE FROM Persone.Persona WHERE id_persona=54";
         stmt.executeUpdate(SQL);
     }
 
@@ -275,7 +275,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM Impiegato WHERE id_impiegato=7;";
         stmt.executeUpdate(SQL);
-        SQL ="DELETE FROM Cliente WHERE id_cliente=54;";
+        SQL ="DELETE FROM Persone.Cliente WHERE id_cliente=54;";
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM persona WHERE id_persona=7;";
         stmt.executeUpdate(SQL);

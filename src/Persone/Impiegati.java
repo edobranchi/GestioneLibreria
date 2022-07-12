@@ -1,4 +1,6 @@
-public class Impiegati extends Persona{
+package Persone;
+
+public class Impiegati extends Persona {
     protected double salario;
     public Impiegati(int id,String nome,String indirizzo,long numerotelefono,double salario){
         super(id,nome,indirizzo,numerotelefono);

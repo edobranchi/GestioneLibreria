@@ -1,3 +1,5 @@
+package DatabaseUtility;
+
 import me.tongfei.progressbar.ProgressBar;
 public class avanzamento implements avanzamentoObserver{
     ProgressBar pb = new ProgressBar("Creazione DB",100);

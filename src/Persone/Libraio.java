@@ -1,3 +1,5 @@
+package Persone;
+
 public class Libraio extends Impiegati{
     int numeroUfficio;
     public static int numeroUfficioAttuale=0;
@@ -15,5 +17,9 @@ public class Libraio extends Impiegati{
     public void stampaInfo(){
         super.stampaInfo();
         System.out.println("Numero Ufficio: "+ this.numeroUfficio);
+    }
+
+    public int getNumeroUfficio() {
+        return numeroUfficio;
     }
 }

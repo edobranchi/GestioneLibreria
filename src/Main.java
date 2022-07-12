@@ -1,3 +1,8 @@
+import Libri.Libreria;
+import Libri.Libro;
+import Libri.Prestito;
+import Persone.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,7 +53,7 @@ public class Main {
                 if (libri != null) {
                     input = inserimento(-1, libri.size());
                     libro = libri.get(input);
-                    if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
+                    if (!"Persone.Cassiere".equals(persona.getClass().getSimpleName()) && !"Persone.Libraio".equals(persona.getClass().getSimpleName())) {
                         libro.creaPrenotazione((Cliente) persona);
                     } else {
                         cliente = ccp.trovaCliente();
@@ -60,7 +65,7 @@ public class Main {
             } else {
                 //Stampa dati personali[INPUT 3]
                 if (scelta == 3) {
-                    if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
+                    if (!"Persone.Cassiere".equals(persona.getClass().getSimpleName()) && !"Persone.Libraio".equals(persona.getClass().getSimpleName())) {
                         persona.stampaInfo();
                     } else {
                         cliente = ccp.trovaCliente();
@@ -71,7 +76,7 @@ public class Main {
                 }
                 //Controllo Multe [INPUT 4]
                 else if (scelta == 4) {
-                    if (!"Cassiere".equals(persona.getClass().getSimpleName()) && !"Libraio".equals(persona.getClass().getSimpleName())) {
+                    if (!"Persone.Cassiere".equals(persona.getClass().getSimpleName()) && !"Persone.Libraio".equals(persona.getClass().getSimpleName())) {
                         double totalFine = libreria.calcolaMultaTotale((Cliente) persona);
                         if(totalFine!=0){
                         System.out.println("\nLa tua multa totale è: " + totalFine);
@@ -116,7 +121,7 @@ public class Main {
                         libri.get(input).stampaPrenotazioni();
                     }
                 }
-                //Prestito libro [INPUT 6], Solo cassiere e libraio
+                //Libri.Prestito libro [INPUT 6], Solo cassiere e libraio
                 else if (scelta == 6) {
                     libri = libreria.ricercaLibro();
                     if (libri != null) {
@@ -231,7 +236,7 @@ public class Main {
                     while (!stop) {
                         pulisciSchermo();
                         System.out.println("--------------------------------------------------------");
-                        System.out.println("\tGestione Libreria");
+                        System.out.println("\tGestione Libri.Libreria");
                         System.out.println("--------------------------------------------------------");
                         System.out.println("Scegli cosa vuoi fare: \n");
                         System.out.println("1- Login");
@@ -280,11 +285,11 @@ public class Main {
                         } else if (scelta == 1) {
                             Persona persona = ccp.login();
                             if (persona != null) {
-                                if (persona.getClass().getSimpleName().equals("Cliente")) {
+                                if (persona.getClass().getSimpleName().equals("Persone.Cliente")) {
                                     while (true) {
                                         pulisciSchermo();
                                         System.out.println("--------------------------------------------------------");
-                                        System.out.println("\tCliente:");
+                                        System.out.println("\tPersone.Cliente:");
                                         System.out.println("--------------------------------------------------------");
                                         System.out.println("Scegli cosa vuoi fare: \n");
                                         System.out.println("1- Ricerca un libro");
@@ -301,11 +306,11 @@ public class Main {
 
                                         funzionalita(persona, scelta);
                                     }
-                                } else if (persona.getClass().getSimpleName().equals("Cassiere")) {
+                                } else if (persona.getClass().getSimpleName().equals("Persone.Cassiere")) {
                                     while (true) {
                                         pulisciSchermo();
                                         System.out.println("--------------------------------------------------------");
-                                        System.out.println("\tCassiere");
+                                        System.out.println("\tPersone.Cassiere");
                                         System.out.println("--------------------------------------------------------");
                                         System.out.println("Scegli cosa vuoi fare: \n");
                                         System.out.println("1- Cerca un libro");
@@ -327,11 +332,11 @@ public class Main {
 
                                         funzionalita(persona, scelta);
                                     }
-                                } else if (persona.getClass().getSimpleName().equals("Libraio")) {
+                                } else if (persona.getClass().getSimpleName().equals("Persone.Libraio")) {
                                     while (true) {
                                         pulisciSchermo();
                                         System.out.println("--------------------------------------------------------");
-                                        System.out.println("\tLibraio");
+                                        System.out.println("\tPersone.Libraio");
                                         System.out.println("--------------------------------------------------------");
                                         System.out.println("Scegli cosa vuoi fare: \n");
                                         System.out.println("1- Cerca un libro");

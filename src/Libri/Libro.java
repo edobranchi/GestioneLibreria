@@ -1,3 +1,8 @@
+package Libri;
+
+import Persone.Cliente;
+import Persone.Impiegati;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -74,7 +79,7 @@ public class Libro {
             System.out.println("Inserisci nuovo genere:");
             this.titolo=buffread.readLine();
         }
-        System.out.println("\nLibro aggiornato");
+        System.out.println("\nLibri.Libro aggiornato");
     }
     public int getIdlibro() {
         return idlibro;
@@ -138,7 +143,7 @@ public class Libro {
            RichiestaPrestito pren=prestito.get(i);
             long giorni = ChronoUnit.DAYS.between(today.toInstant(), pren.getDataRichiesta().toInstant());
             giorni = -giorni;
-            if(giorni>(long)Libreria.getInstance().getScadenza_prenotazioni()){
+            if(giorni>(long) Libreria.getInstance().getScadenza_prenotazioni()){
                 this.rimuoviPrenotazione();
                 pren.getCliente().rimuoviPrenotazione(pren);
             }
@@ -181,12 +186,12 @@ public class Libro {
             Prestito Storico =new Prestito(cliente,this,impiegati,null,new Date(),null,false);
             Libreria.getInstance().aggiungiPrestito(Storico);
             cliente.aggiungiLibroInPrestito(Storico);
-            System.out.println("\n"+ cliente.nome+ " ha preso in prestito con successo "+this.titolo +" di "+this.autore);
-            System.out.println("Prestito creato da "+impiegati.getNome());
+            System.out.println("\n"+ cliente.getNome()+ " ha preso in prestito con successo "+this.titolo +" di "+this.autore);
+            System.out.println("Libri.Prestito creato da "+impiegati.getNome());
         }
 
     }
-    public void restituzioneLibro(Cliente cliente,Prestito prestito,Impiegati impiegati){
+    public void restituzioneLibro(Cliente cliente, Prestito prestito, Impiegati impiegati){
         prestito.getLibro().setInprestito(false);
         prestito.setDataFinePrestito(new Date());
         prestito.setRicevente(impiegati);

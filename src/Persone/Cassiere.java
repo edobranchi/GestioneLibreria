@@ -1,4 +1,10 @@
-public class Cassiere extends Impiegati{
+package Persone;
+
+import Persone.Impiegati;
+
+public class Cassiere extends Impiegati {
+
+
     int numeroScrivania;
     public static int numeroDiScrivaniaAttuale=0;
 
@@ -14,5 +20,8 @@ public class Cassiere extends Impiegati{
     public void stampaInfo(){
         super.stampaInfo();
         System.out.println("Numero Scrivania: " +this.numeroScrivania);
+    }
+    public int getNumeroScrivania() {
+        return numeroScrivania;
     }
 }

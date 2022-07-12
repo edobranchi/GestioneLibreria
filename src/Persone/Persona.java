@@ -1,3 +1,5 @@
+package Persone;
+
 public abstract class Persona {
     protected int id;
     protected String password;
