@@ -135,4 +135,32 @@ Il programma prevede 3 livelli di autorizazzione ogniuno con diversi tipi di fun
 
 
 
-c
+##Class Diagram:
+
+###Persone:
+![Persone!ClassDiagram1_0](https://user-images.githubusercontent.com/28054437/179314057-6381ee8d-a454-4d35-8018-f06d98d4b448.png)
+
+###Libro:
+![Libri!ClassDiagram1_1](https://user-images.githubusercontent.com/28054437/179314084-951903ff-f38f-4ead-8e30-98fb80e68ebd.png)
+
+###DatabaseUtility:
+![DatabaseUtility!ClassDiagram1_2](https://user-images.githubusercontent.com/28054437/179314106-92d24dca-6055-45af-ba50-1dc5fdff8247.png)
+
+
+##Use Cases:
+
+###Cliente:
+![UseCaseCliente!UseCaseDiagram1_3](https://user-images.githubusercontent.com/28054437/179314204-022d02eb-61fc-40ae-b5b9-10ba292b44d8.png)
+
+###Cassiere:
+![UseCaseCassiere!UseCaseDiagram1_4](https://user-images.githubusercontent.com/28054437/179314245-b0e6ad3e-c794-402f-b417-9a223215b280.png)
+
+###Libraio:
+![UseCaseLibraio!UseCaseDiagram1_5](https://user-images.githubusercontent.com/28054437/179314275-e44b4dba-a0f2-4c9e-8685-88e6b1f448ba.png)
+
+###Operazioni disponibili al Cliente ma con i privilegi di Cassiere e Libraio:
+![Model1!UseCaseDiagram1_6](https://user-images.githubusercontent.com/28054437/179314401-cf032515-e3c0-422e-90b0-57bf3f8d825a.png)
+
+###SysAdmin:
+![UseCaseDiagram1](https://user-images.githubusercontent.com/28054437/179314852-1ead75c2-a408-4916-b5f6-3c6b1febc965.png)
+
