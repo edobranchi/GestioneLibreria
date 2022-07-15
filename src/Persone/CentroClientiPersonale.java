@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class CentroClientiPersonale {
     private Libraio libraio = null;
-
     private static final ArrayList<Persona> persone = new ArrayList();
     private static CentroClientiPersonale ccp;
 
@@ -19,12 +18,9 @@ public class CentroClientiPersonale {
         }
         return ccp;
     }
-
-
     public Libraio getLibraio() {
         return libraio;
     }
-
     public static ArrayList<Persona> getPersone() {
         return persone;
     }
@@ -42,7 +38,6 @@ public class CentroClientiPersonale {
     public void aggiungiCassiere(Cassiere cassiere) {
         persone.add(cassiere);
     }
-
     public void aggiungiCliente(Cliente cliente) {
         persone.add(cliente);
     }
@@ -64,7 +59,6 @@ public class CentroClientiPersonale {
         System.out.println("\nNon sono presenti clienti con quell' ID");
         return null;
     }
-
     public Cassiere trovaCassiere() {
         System.out.println("\nInserisci ID cassiere: ");
         int idcassiere = 0;

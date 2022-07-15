@@ -43,19 +43,19 @@ public class Libro {
         }
 
     }
-    public void stampaPrenotazioni(){
-        if(!this.libriPrenotati.isEmpty()) {
+    public void stampaPrenotazioni() {
+        if (!this.libriPrenotati.isEmpty()) {
             System.out.println("\nI libri prenotati sono:\n");
             System.out.println("----------------------------");
             for (int i = 0; i < this.libriPrenotati.size(); i++) {
                 System.out.println(i);
                 this.libriPrenotati.get(i).stampa();
             }
-        }else{
-                System.out.println("\n Non ci sono prenotazioni");
-            }
+        } else {
+            System.out.println("\n Non ci sono prenotazioni");
         }
-        public void stampaInfo(){
+    }
+    public void stampaInfo(){
         System.out.println(this.titolo+"   "+this.autore+"   "+this.genere+ "   ");
     }
     public void cambiaInfoLibro() throws IOException {

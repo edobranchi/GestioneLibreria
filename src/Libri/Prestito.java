@@ -57,7 +57,7 @@ public class Prestito {
     public void setMultaPagata(boolean multaPagata) {
         this.multaPagata = multaPagata;
     }
-     public double calcolaMulta(){
+    public double calcolaMulta(){
         double multa=0;
         if (!this.multaPagata){
             Date inizio=this.dataInizioPrestito;

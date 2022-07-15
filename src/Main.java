@@ -204,9 +204,9 @@ public class Main {
                     }
                     //Stampa informazioni cassiere [INPUT 14], Solo libraio
                     else if (scelta == 14) {
-                        Cassiere clerk = ccp.trovaCassiere();
-                        if (clerk != null) {
-                            clerk.stampaInfo();
+                        Cassiere cass = ccp.trovaCassiere();
+                        if (cass != null) {
+                            cass.stampaInfo();
                         }
                     }
                 }

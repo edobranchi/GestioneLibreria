@@ -14,15 +14,12 @@ public class RichiestaPrestito {
         this.libro=libro;
         this.dataRichiesta=dataRichiesta;
     }
-
     public Cliente getCliente() {
         return cliente;
     }
-
     public Libro getLibro() {
         return libro;
     }
-
     public Date getDataRichiesta() {
         return dataRichiesta;
     }

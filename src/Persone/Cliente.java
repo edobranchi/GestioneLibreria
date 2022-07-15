@@ -16,13 +16,11 @@ public class Cliente extends Persona {
     public Cliente(int id, String nome, String indirizzo, long numeroTelefono) {
         super(id, nome, indirizzo, numeroTelefono);
     }
-
     public void stampaInfo() {
         super.stampaInfo();
         this.stampaLibriInPrestito();
         this.stampaLibriPrenotati();
     }
-
     public void stampaLibriInPrestito() {
         if (this.libriInPrestito.isEmpty()) {
             System.out.println("L'utente non ha libri in prestito: ");
@@ -34,7 +32,6 @@ public class Cliente extends Persona {
             }
         }
     }
-
     public void stampaLibriPrenotati() {
         if (this.libriPrenotati.isEmpty()) {
             System.out.println("L'utente non ha libri prenotati ");
@@ -47,7 +44,6 @@ public class Cliente extends Persona {
             }
         }
     }
-
     public void aggiornaInformazioniCliente() throws IOException {
         Scanner scan = new Scanner(System.in);
         BufferedReader buffreader = new BufferedReader(new InputStreamReader(System.in));

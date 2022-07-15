@@ -29,48 +29,30 @@ public class Libreria extends DatabaseQuery {
         }
         return libreria;
     }
-
     public void setScadenza_prestiti(int scadenza_prestiti) {
         this.scadenza_prestiti = scadenza_prestiti;
     }
-
     public void setMulta_al_giorno(int multa_al_giorno) {
         this.multa_al_giorno = multa_al_giorno;
     }
-
     public void setScadenza_prenotazioni(int scadenza_prenotazioni) {
         this.scadenza_prenotazioni = scadenza_prenotazioni;
     }
-
-
-
-
     public ArrayList<Libro> getLibri() {
         return Libri;
     }
-
     public ArrayList<Prestito> getPrestiti() {
         return prestiti;
     }
-
     public int getScadenza_prenotazioni() {
         return scadenza_prenotazioni;
     }
-
-
-
-
-
     public void aggiungiPrestito(Prestito prestito) {
         this.prestiti.add(prestito);
     }
-
-
-
     public void aggiungiLibro(Libro libro) {
         this.Libri.add(libro);
     }
-
     public void rimuoviLibro(Libro libro) {
         boolean delete = true;
         for (int i = 0; i < CentroClientiPersonale.getPersone().size() && delete; ++i) {
@@ -117,7 +99,6 @@ public class Libreria extends DatabaseQuery {
         }
 
     }
-
     public ArrayList<Libro> ricercaLibro() throws IOException {
         String titolo = "";
         String genere = "";
@@ -182,7 +163,6 @@ public class Libreria extends DatabaseQuery {
 
         }
     }
-
     public void stampaTuttiILibri() {
         if (!this.Libri.isEmpty()) {
             System.out.println("Libri presenti nel catalogo");
@@ -195,7 +175,6 @@ public class Libreria extends DatabaseQuery {
             System.out.println("\nNon sono presenti libri");
         }
     }
-
     public double calcolaMultaTotale(Cliente cliente) {
         double multaTotale = 0.0;
         double multaPerLibro;
@@ -209,17 +188,11 @@ public class Libreria extends DatabaseQuery {
         }
         return multaTotale;
     }
-
-
-
     public void creaLibro(String titolo, String genere, String autore) {
         Libro libro = new Libro(-1, titolo, genere, autore, false);
         this.aggiungiLibro(libro);
         System.out.println("Libri.Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
     }
-
-
-
     public void stampaStorico() {
         if (!this.prestiti.isEmpty()) {
             System.out.println("\nLibri in prestito: ");
