@@ -38,14 +38,14 @@ public class DatabaseQuery{
             thread.join();
         }
 
-        String SQL = "SELECT * FROM Libri.Libro";
+        String SQL = "SELECT * FROM Libro";
         ResultSet rs = stmt.executeQuery(SQL);
         int id;
         String name;
         String adrs;
         int rd;
         if (!rs.next()) {
-            System.out.println("\nNessun libro trovato in Libri.Libreria");
+            System.out.println("\nNessun libro trovato in Libreria");
         } else {
             id = 0;
 
@@ -67,7 +67,7 @@ public class DatabaseQuery{
             Libro.setIdlibroattuale(id);
         }
 
-        SQL = "SELECT id_persona,nome_persona,password,indirizzo,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Persone.Cassiere ON id_persona=id_cassiere INNER JOIN Impiegato ON id_impiegato=id_cassiere";
+        SQL = "SELECT id_persona,nome_persona,password,indirizzo,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Cassiere ON id_persona=id_cassiere INNER JOIN Impiegato ON id_impiegato=id_cassiere";
         rs = stmt.executeQuery(SQL);
         int phn;
         double sal;
@@ -90,7 +90,7 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 
-        SQL = "SELECT id_persona,nome_persona,password,indirizzo,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Persone.Libraio ON id_persona=id_libraio INNER JOIN Impiegato ON id_impiegato=id_libraio";
+        SQL = "SELECT id_persona,nome_persona,password,indirizzo,numero_telefono,stipendio,numero_scrivania FROM persona INNER JOIN Libraio ON id_persona=id_libraio INNER JOIN Impiegato ON id_impiegato=id_libraio";
         rs = stmt.executeQuery(SQL);
         if (!rs.next()) {
             System.out.println("Nessun libraio presente in libreria");
@@ -109,7 +109,7 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 
-        SQL = "SELECT id_persona,nome_persona,password,indirizzo,password,numero_telefono FROM Persone.Persona INNER JOIN Persone.Cliente ON id_persona=id_cliente";
+        SQL = "SELECT id_persona,nome_persona,password,indirizzo,password,numero_telefono FROM Persona INNER JOIN Cliente ON id_persona=id_cliente";
         rs = stmt.executeQuery(SQL);
         Cliente bb;
         if (!rs.next()) {
@@ -127,7 +127,7 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 
-        SQL = "SELECT * FROM Libri.Prestito";
+        SQL = "SELECT * FROM Prestito";
         rs = stmt.executeQuery(SQL);
         int bokid;
         //int i;
@@ -239,7 +239,7 @@ public class DatabaseQuery{
             } while(rs.next());
         }
 //SELECT id_persona,libro era qui sotto
-        SQL = "SELECT id_persona,id_libro FROM persona INNER JOIN Persone.Cliente ON id_persona=id_cliente INNER JOIN libro_in_prestito ON id_cliente=cliente ";
+        SQL = "SELECT id_persona,id_libro FROM persona INNER JOIN Cliente ON id_persona=id_cliente INNER JOIN libro_in_prestito ON id_cliente=cliente ";
         rs = stmt.executeQuery(SQL);
         if (!rs.next()) {
             System.out.println("Nessun cliente ha ancora preso in prestito un libro dalla libreria");
@@ -255,7 +255,7 @@ public class DatabaseQuery{
 
 
 
-                    if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Persone.Cliente") && (CentroClientiPersonale.getPersone().get(i)).getId() == id) {
+                    if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cliente") && (CentroClientiPersonale.getPersone().get(i)).getId() == id) {
                         set = false;
                         bb = (Cliente) CentroClientiPersonale.getPersone().get(i);
                     }
@@ -300,10 +300,10 @@ public class DatabaseQuery{
         template = "DELETE FROM public.libro";
         stmts = con.prepareStatement(template);
         stmts.executeUpdate();
-        template = "DELETE FROM public.Persone.Cassiere";
+        template = "DELETE FROM public.Cassiere";
         stmts = con.prepareStatement(template);
         stmts.executeUpdate();
-        template = "DELETE FROM public.Persone.Libraio";
+        template = "DELETE FROM public.Libraio";
         stmts = con.prepareStatement(template);
         stmts.executeUpdate();
         template = "DELETE FROM public.cliente";
@@ -338,7 +338,7 @@ public class DatabaseQuery{
                 stmt.setString(2, "Persone.Cassiere");
                 stmt.setDouble(3, ((Cassiere) CentroClientiPersonale.getPersone().get(i)).getSalario());
                 stmt.executeUpdate();
-                template = "INSERT INTO Persone.Cassiere (id_cassiere,numero_scrivania) values (?,?)";
+                template = "INSERT INTO Cassiere (id_cassiere,numero_scrivania) values (?,?)";
                 stmt = con.prepareStatement(template);
                 stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());
                 stmt.setInt(2, ((Cassiere) CentroClientiPersonale.getPersone().get(i)).getNumeroScrivania());
@@ -353,7 +353,7 @@ public class DatabaseQuery{
             stmt.setString(2, "Persone.Libraio");
             stmt.setDouble(3, ccp.getLibraio().getSalario());
             stmt.executeUpdate();
-            template = "INSERT INTO Persone.Libraio (id_libraio,numero_scrivania) values (?,?)";
+            template = "INSERT INTO Libraio (id_libraio,numero_scrivania) values (?,?)";
             stmt = con.prepareStatement(template);
             stmt.setInt(1, ccp.getLibraio().getId());
             stmt.setInt(2, ccp.getLibraio().getNumeroUfficio());
@@ -361,7 +361,7 @@ public class DatabaseQuery{
         }
 
         for(i = 0; i < CentroClientiPersonale.getPersone().size(); ++i) {
-            if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Persone.Cliente")) {
+            if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cliente")) {
                 template = "INSERT INTO cliente(id_cliente) values (?)";
                 stmt = con.prepareStatement(template);
                 stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());

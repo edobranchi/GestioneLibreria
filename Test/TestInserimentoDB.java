@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
@@ -9,6 +10,75 @@ public class TestInserimentoDB {
     String host = "jdbc:postgresql://[::1]:5432/LIBRERIA?allowMultiQueries=true";  //password edo
     String uName = "postgres";
     String uPass = "edo";
+
+    @Test
+    @BeforeAll
+    static void PurgeDB() {
+
+        try {
+            String host = "jdbc:postgresql://[::1]:5432/LIBRERIA?allowMultiQueries=true";  //password edo
+            String uName = "postgres";
+            String uPass = "edo";
+            Connection con = DriverManager.getConnection(host, uName, uPass);
+            Statement stmt = con.createStatement();
+            String SQL = "DROP SCHEMA public CASCADE;";
+            stmt.addBatch(SQL);
+            SQL = "CREATE SCHEMA public;";
+            stmt.addBatch(SQL);
+            stmt.executeBatch();
+            stmt = con.createStatement();
+
+
+            String CreateSql = "Create Table Libro(id_libro int primary key, titolo varchar not null, autore varchar not null, genere varchar not null ,in_prestito boolean not null) ";
+            stmt.addBatch(CreateSql);
+            String CreateSql2 = "Create Table Prestito(id_prestito int primary key, libro integer not null, prestante integer not null,ricevente integer, cliente integer not null, data_inizio_prestito timestamp not null,data_fine_prestito timestamp,multa_pagata boolean not null) ";
+            stmt.addBatch(CreateSql2);
+            String CreateSql3 = "Create Table Libraio(id_libraio int primary key, numero_scrivania integer not null) ";
+            stmt.addBatch(CreateSql3);
+            String CreateSql4 = "Create Table Impiegato(id_impiegato int primary key, tipo varchar not null, stipendio double precision) ";
+            stmt.addBatch(CreateSql4);
+            String CreateSql5 = "Create Table Cliente(id_cliente int primary key) ";
+            stmt.addBatch(CreateSql5);
+            String CreateSql6 = "Create Table Cassiere(id_cassiere int primary key,numero_scrivania integer not null) ";
+            stmt.addBatch(CreateSql6);
+            String CreateSql7 = "Create Table Persona(id_persona int primary key, nome_persona varchar not null,password varchar not null,indirizzo varchar not null,numero_telefono integer not null) ";
+            stmt.addBatch(CreateSql7);
+            String CreateSql8 = "Create Table Libro_prenotato(id_prenotazione int primary key, libro integer not null, cliente integer not null,data_prenotazione timestamp) ";
+            stmt.addBatch(CreateSql8);
+            String CreateSql9 = "Create Table Libro_in_prestito(id_libro int primary key, cliente integer not null) ";
+            stmt.addBatch(CreateSql9);
+
+
+            String CreateSql10 = "ALTER TABLE Prestito ADD CONSTRAINT fklibro FOREIGN KEY (libro) REFERENCES Libro (id_libro); ";
+            stmt.addBatch(CreateSql10);
+            String CreateSql11 = "ALTER TABLE Prestito ADD CONSTRAINT fk_prestante FOREIGN KEY (prestante) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql11);
+            String CreateSql12 = "ALTER TABLE Prestito ADD CONSTRAINT fk_ricevente FOREIGN KEY (ricevente) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql12);
+            String CreateSql13 = "ALTER TABLE Prestito ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            stmt.addBatch(CreateSql13);
+            String CreateSql14 = "ALTER TABLE Libraio ADD CONSTRAINT fkid_libraio FOREIGN KEY (id_libraio) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql14);
+            String CreateSql15 = "ALTER TABLE Cassiere ADD CONSTRAINT fkid_cassiere FOREIGN KEY (id_cassiere) REFERENCES Impiegato (id_impiegato); ";
+            stmt.addBatch(CreateSql15);
+            String CreateSql16 = "ALTER TABLE Impiegato ADD CONSTRAINT fk_impiegato FOREIGN KEY (id_impiegato) REFERENCES Persona (id_persona); ";
+            stmt.addBatch(CreateSql16);
+            String CreateSql17 = "ALTER TABLE Cliente ADD CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES Persona (id_persona); ";
+            stmt.addBatch(CreateSql17);
+            String CreateSql18 = "ALTER TABLE Libro_prenotato ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            stmt.addBatch(CreateSql18);
+            String CreateSql19 = "ALTER TABLE Libro_in_prestito ADD CONSTRAINT fk_cliente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
+            stmt.addBatch(CreateSql19);
+
+            stmt.executeBatch();
+
+        } catch (SQLException var5) {
+            System.out.println(var5.getMessage());
+
+        }
+    }
+
+
 
     @Test
     @Order(1)
@@ -55,7 +125,7 @@ public class TestInserimentoDB {
 
         SQL ="DELETE FROM cliente WHERE id_cliente=1;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
 
     }
@@ -80,11 +150,11 @@ public class TestInserimentoDB {
         assertEquals("1",rs.getString(1));
         assertEquals("26",rs.getString(2));
 
-        SQL ="DELETE FROM Persone.Cassiere WHERE id_cassiere=1;";
+        SQL ="DELETE FROM Cassiere WHERE id_cassiere=1;";
         stmt.executeUpdate(SQL);
         SQL = "DELETE FROM Impiegato WHERE id_impiegato=1";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
     }
 
@@ -113,7 +183,7 @@ public class TestInserimentoDB {
 
         SQL ="DELETE FROM Impiegato WHERE id_impiegato=1;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
     }
 
@@ -142,7 +212,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM Impiegato WHERE id_impiegato=1;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persone.Persona WHERE id_persona=1";
+        SQL = "DELETE FROM Persona WHERE id_persona=1";
         stmt.executeUpdate(SQL);
     }
 
@@ -171,7 +241,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM cliente WHERE id_cliente=24;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persone.Persona WHERE id_persona=24";
+        SQL = "DELETE FROM Persona WHERE id_persona=24";
         stmt.executeUpdate(SQL);
     }
 
@@ -203,7 +273,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM cliente WHERE id_cliente=54;";
         stmt.executeUpdate(SQL);
-        SQL = "DELETE FROM Persone.Persona WHERE id_persona=54";
+        SQL = "DELETE FROM Persona WHERE id_persona=54";
         stmt.executeUpdate(SQL);
     }
 
@@ -275,7 +345,7 @@ public class TestInserimentoDB {
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM Impiegato WHERE id_impiegato=7;";
         stmt.executeUpdate(SQL);
-        SQL ="DELETE FROM Persone.Cliente WHERE id_cliente=54;";
+        SQL ="DELETE FROM Cliente WHERE id_cliente=54;";
         stmt.executeUpdate(SQL);
         SQL ="DELETE FROM persona WHERE id_persona=7;";
         stmt.executeUpdate(SQL);

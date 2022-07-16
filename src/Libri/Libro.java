@@ -187,7 +187,7 @@ public class Libro {
             Libreria.getInstance().aggiungiPrestito(Storico);
             cliente.aggiungiLibroInPrestito(Storico);
             System.out.println("\n"+ cliente.getNome()+ " ha preso in prestito con successo "+this.titolo +" di "+this.autore);
-            System.out.println("Libri.Prestito creato da "+impiegati.getNome());
+            System.out.println("Prestito creato da "+impiegati.getNome());
         }
 
     }
