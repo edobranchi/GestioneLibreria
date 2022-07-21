@@ -27,7 +27,7 @@ public class Cliente extends Persona {
         } else {
             System.out.println("Libri in prestito:");
             for (int i = 0; i < this.libriInPrestito.size(); i++) {
-                System.out.println("ID Libri.Libro: " + i);
+                System.out.println("ID Libro: " + i);
                 this.libriInPrestito.get(i).getLibro().stampaInfo();
             }
         }
@@ -38,9 +38,8 @@ public class Cliente extends Persona {
         } else {
             System.out.println("Libri prenotati:");
             for (int i = 0; i < this.libriPrenotati.size(); i++) {
-                System.out.println("ID Libri.Libro: " + i);
+                System.out.println("ID Libro: " + i);
                 this.libriPrenotati.get(i).getLibro().stampaInfo();
-
             }
         }
     }
@@ -60,7 +59,6 @@ public class Cliente extends Persona {
             System.out.println("Inserire nuovo indirizzo");
             this.setIndirizzo(buffreader.readLine());
             System.out.println("Indirizzo aggiornato con successo!");
-
         }
         System.out.println("Vuoi cambiare il numero telefonico di " + this.getNome() + " ? (S/N)");
         scelta = scan.next();

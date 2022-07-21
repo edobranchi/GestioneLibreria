@@ -9,13 +9,8 @@ import java.util.List;
 
 public class CreazioneDatabase implements Runnable {
 
-
     private final List<avanzamento> observers;
-
     private final Connection con;
-
-
-
 
     public  CreazioneDatabase(Connection con){
         this.con=con;
@@ -31,6 +26,7 @@ public class CreazioneDatabase implements Runnable {
         }
     }
 
+    //Multithread nel caso in futuro si voleese caricare una GUI in contemporanea alla creazione del DB
     public void run(){
         Statement stmt;
         avanzamento avanz=new avanzamento();
@@ -38,8 +34,7 @@ public class CreazioneDatabase implements Runnable {
 
         try {
             stmt = con.createStatement();
-
-
+            //Creazione Tabelle
             String CreateSql = "Create Table Libro(id_libro int primary key, titolo varchar not null, autore varchar not null, genere varchar not null ,in_prestito boolean not null) ";
             notifyObservers(10);
             stmt.addBatch(CreateSql);
@@ -77,6 +72,7 @@ public class CreazioneDatabase implements Runnable {
             stmt.addBatch(CreateSql9);
             Thread.sleep(1000);
 
+            //Creazione ForeignKey
             String CreateSql10 = "ALTER TABLE Prestito ADD CONSTRAINT fklibro FOREIGN KEY (libro) REFERENCES Libro (id_libro); ";
             stmt.addBatch(CreateSql10);
             String CreateSql11 = "ALTER TABLE Prestito ADD CONSTRAINT fk_prestante FOREIGN KEY (prestante) REFERENCES Impiegato (id_impiegato); ";
@@ -99,8 +95,6 @@ public class CreazioneDatabase implements Runnable {
             stmt.addBatch(CreateSql19);
             notifyObservers(100);
             stmt.executeBatch();
-
-
 
         } catch (SQLException | InterruptedException e) {
             throw new RuntimeException(e);

@@ -34,14 +34,12 @@ public class Libro {
         this.libriPrenotati=new ArrayList<>();
     }
     public void aggiungiPrenotazione(RichiestaPrestito libpre){
-
         this.libriPrenotati.add(libpre);
     }
     public void rimuoviPrenotazione(){
         if(!this.libriPrenotati.isEmpty()){
             this.libriPrenotati.remove(0);
         }
-
     }
     public void stampaPrenotazioni() {
         if (!this.libriPrenotati.isEmpty()) {
@@ -79,7 +77,7 @@ public class Libro {
             System.out.println("Inserisci nuovo genere:");
             this.titolo=buffread.readLine();
         }
-        System.out.println("\nLibri.Libro aggiornato");
+        System.out.println("\nLibro aggiornato");
     }
     public int getIdlibro() {
         return idlibro;
@@ -126,6 +124,7 @@ public class Libro {
                 break;
             }
         }
+        //Se non è gia prenotato crea una prenotazione
         if(creaRichiesta){
             this.creaPrenotazioneLibro(cliente);
         }else{
@@ -147,7 +146,6 @@ public class Libro {
                 this.rimuoviPrenotazione();
                 pren.getCliente().rimuoviPrenotazione(pren);
             }
-
         }
         if(this.inprestito) {
             System.out.println(this.titolo + " è già in prestito.");
@@ -157,7 +155,6 @@ public class Libro {
             if (input.equals("s")) {
                 this.creaPrenotazione(cliente);
             }
-
         }else{
             if (!this.libriPrenotati.isEmpty()) {
                 boolean haPrenotazioni=false;
@@ -189,7 +186,6 @@ public class Libro {
             System.out.println("\n"+ cliente.getNome()+ " ha preso in prestito con successo "+this.titolo +" di "+this.autore);
             System.out.println("Prestito creato da "+impiegati.getNome());
         }
-
     }
     public void restituzioneLibro(Cliente cliente, Prestito prestito, Impiegati impiegati){
         prestito.getLibro().setInprestito(false);

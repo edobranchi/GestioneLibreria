@@ -2,7 +2,6 @@ package Libri;
 
 import Persone.Cliente;
 import Persone.Impiegati;
-
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Scanner;
@@ -25,7 +24,6 @@ public class Prestito {
         this.dataFinePrestito=dataFinePrestito;
         this.multaPagata=multaPagata;
     }
-
     public Libro getLibro() {
         return libro;
     }
@@ -53,7 +51,6 @@ public class Prestito {
     public boolean isMultaPagata() {
         return multaPagata;
     }
-
     public void setMultaPagata(boolean multaPagata) {
         this.multaPagata = multaPagata;
     }
@@ -77,7 +74,7 @@ public class Prestito {
         }
         return multa;
      }
-     public void pagaMulta(){
+    public void pagaMulta(){
         double multaTotale=this.calcolaMulta();
         if(multaTotale>0) {
             System.out.println("Vuoi pagarla?(SI(s)/NO(n)");
@@ -92,7 +89,7 @@ public class Prestito {
             }
         }
      }
-     public void rinnovaPrestito(Date dataInizioPrestito){
+    public void rinnovaPrestito(Date dataInizioPrestito){
         this.dataInizioPrestito=dataInizioPrestito;
         System.out.println("La data di restituzione per" + this.getLibro().getTitolo() +"è stata spostata");
      }

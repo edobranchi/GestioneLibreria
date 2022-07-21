@@ -11,14 +11,12 @@ public class Libraio extends Impiegati{
         } else {
             this.numeroUfficio = numeroUfficio;
         }
-
         ++numeroUfficioAttuale;
     }
     public void stampaInfo(){
         super.stampaInfo();
         System.out.println("Numero Ufficio: "+ this.numeroUfficio);
     }
-
     public int getNumeroUfficio() {
         return numeroUfficio;
     }

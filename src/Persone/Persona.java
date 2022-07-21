@@ -6,7 +6,6 @@ public abstract class Persona {
     protected String nome;
     protected String indirizzo;
     protected long numeroTelefono;
-
     static int numeroIdAttuale=0;
 
     public Persona(int id,String nome,String indirizzo,long numeroTelefono){

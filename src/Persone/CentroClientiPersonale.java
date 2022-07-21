@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class CentroClientiPersonale {
     private Libraio libraio = null;
-    private static final ArrayList<Persona> persone = new ArrayList();
+    private static final ArrayList<Persona> persone = new ArrayList<>();
     private static CentroClientiPersonale ccp;
 
     public static CentroClientiPersonale getInstance() {
@@ -25,6 +25,7 @@ public class CentroClientiPersonale {
         return persone;
     }
     public boolean aggiungiLibraio(Libraio libraio) {
+        //Controllo la non esistenza del libraio
         if (this.libraio == null) {
             this.libraio = libraio;
             persone.add(this.libraio);
@@ -54,7 +55,6 @@ public class CentroClientiPersonale {
             if (( persone.get(i)).getId() == idcliente && ( persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
                 return (Cliente) persone.get(i);
             }
-
         }
         System.out.println("\nNon sono presenti clienti con quell' ID");
         return null;
@@ -63,7 +63,6 @@ public class CentroClientiPersonale {
         System.out.println("\nInserisci ID cassiere: ");
         int idcassiere = 0;
         Scanner scanner = new Scanner(System.in);
-
         try {
             idcassiere = scanner.nextInt();
         } catch (InputMismatchException var4) {
@@ -74,7 +73,6 @@ public class CentroClientiPersonale {
                 return (Cassiere) persone.get(i);
             }
         }
-
         System.out.println("\nNon esiste nessun cassiere con quell'ID.");
         return null;
     }
@@ -83,6 +81,7 @@ public class CentroClientiPersonale {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("\nInserisci nome persona da creare: ");
         String nome = "";
+        //Sezione di creazione comune fra cliente cassiere e libraio
         try {
             nome = reader.readLine();
         } catch (IOException var14) {
@@ -97,15 +96,14 @@ public class CentroClientiPersonale {
         } catch (IOException var13) {
             System.out.println("\nInput non valido");
         }
-
         long numerotelefono = 0;
-
         try {
             System.out.println("Inserisci numero di telefono: ");
             numerotelefono = scan.nextLong();
         } catch (InputMismatchException var12) {
             System.out.println("\nInput non valido");
         }
+        //Sezione dedicata nel caso volessi un cassiere
         double salario;
         if (x == 'c') {
             salario = 0.0;
@@ -121,15 +119,14 @@ public class CentroClientiPersonale {
             System.out.println("\nIl tuo ID è : " + cassiere.getId());
             System.out.println("Your Password is : " + cassiere.getPassword());
         } else if (x == 'l') {
+            //Sezione dedicata nel caso volessi un libraio
             salario = 0.0;
-
             try {
                 System.out.println("Inserisci stipendio:");
                 salario = scan.nextDouble();
             } catch (InputMismatchException var10) {
                 System.out.println("\nInput non valido");
             }
-
             Libraio libraio = new Libraio(-1, nome, indirizzo, numerotelefono, salario, -1);
             if (this.aggiungiLibraio(libraio)) {
                 System.out.println("\nLibraio con nome " + nome + " creato con successo.");
@@ -137,6 +134,7 @@ public class CentroClientiPersonale {
                 System.out.println("La tua password è : " + libraio.getPassword());
             }
         } else {
+            //Sezione dedicata se volessi un cliente
             Cliente cliente = new Cliente(-1, nome, indirizzo, numerotelefono);
             this.aggiungiCliente(cliente);
             System.out.println("\nCliente con nome " + nome + " creato con successo.");
@@ -148,7 +146,7 @@ public class CentroClientiPersonale {
     public Persona login() {
         Scanner input = new Scanner(System.in);
         int id = 0;
-        String password = "";
+
         System.out.println("\nInserisci il tuo ID: ");
         try {
             id = input.nextInt();
@@ -156,8 +154,7 @@ public class CentroClientiPersonale {
             System.out.println("\nInput non valido");
         }
         System.out.println("Inserisci la password ");
-        password = input.next();
-
+        String password = input.next();
         for (int i = 0; i < persone.size(); ++i) {
             if (persone.get(i).getId() == id && persone.get(i).getPassword().equals(password)) {
                 System.out.println("\nBenvenuto " + persone.get(i).getNome());

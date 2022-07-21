@@ -1,10 +1,7 @@
 package Persone;
 
-import Persone.Impiegati;
 
 public class Cassiere extends Impiegati {
-
-
     int numeroScrivania;
     public static int numeroDiScrivaniaAttuale=0;
 

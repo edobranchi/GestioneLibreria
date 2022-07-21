@@ -1,7 +1,5 @@
 package Libri;
-
 import Persone.Cliente;
-
 import java.util.Date;
 
 public class RichiestaPrestito {

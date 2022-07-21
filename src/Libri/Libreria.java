@@ -22,13 +22,13 @@ public class Libreria extends DatabaseQuery {
 
     //Singleton per libreria
     private static Libreria libreria;
-
     public static Libreria getInstance() {
         if (libreria == null) {
             libreria = new Libreria();
         }
         return libreria;
     }
+
     public void setScadenza_prestiti(int scadenza_prestiti) {
         this.scadenza_prestiti = scadenza_prestiti;
     }
@@ -71,9 +71,7 @@ public class Libreria extends DatabaseQuery {
             if (!richiestaPrestito.isEmpty()) {
                 System.out.println("\nQuesto libro potrebbe essere prenotato cancellare comunque?(SI(s)/NO(n))");
                 Scanner sc = new Scanner(System.in);
-
-
-                    while (true) {
+                while (true) {
                         String input = sc.next();
                         if (!input.equals("s") && !input.equals("n")) {
                             System.out.println("Input non valido (SI(s)/NO(n)): ");
@@ -82,22 +80,19 @@ public class Libreria extends DatabaseQuery {
                                 System.out.println("\nRimozione libro annullata.");
                                 return;
                             }
-                            for (int i = 0; i < richiestaPrestito.size() && delete; ++i) {
+                            for (int i = 0; i < richiestaPrestito.size(); ++i) {
                                RichiestaPrestito hr = richiestaPrestito.get(i);
                                 hr.getCliente().rimuoviPrenotazione(hr);
                                 libro.rimuoviPrenotazione();
                             }
                         }
                     }
-
             }
-
             this.Libri.remove(libro);
-            System.out.println("Libri.Libro rimosso con successo");
+            System.out.println("Libro rimosso con successo");
         } else {
             System.out.println("\nCancellazione annullata");
         }
-
     }
     public ArrayList<Libro> ricercaLibro() throws IOException {
         String titolo = "";
@@ -105,7 +100,6 @@ public class Libreria extends DatabaseQuery {
         String autore = "";
         Scanner sc = new Scanner(System.in);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         while (true) {
             System.out.println("\nInserisci 1 per cercare per titolo, 2 per cercare per genere,3 per cercare per autore:");
             String choice = sc.next();
@@ -124,20 +118,22 @@ public class Libreria extends DatabaseQuery {
                     System.out.println("Non ci sono libri in libreria");
                 } else {
                     ArrayList<Libro> libriCorrispondenti = new ArrayList<>();
-
                     int i;
                     for (i = 0; i < this.Libri.size(); ++i) {
                         Libro libro = this.Libri.get(i);
+                        //Ricerca per titolo
                         if (choice.equals("1")) {
                             if (libro.getTitolo().equals(titolo)) {
                                 libriCorrispondenti.add(libro);
                             }
                         }
+                        //Ricerca per genere
                         if (choice.equals("2")) {
                             if (libro.getGenere().equals(genere)) {
                                 libriCorrispondenti.add(libro);
                             }
                         }
+                        //Ricerca per autore
                         if (choice.equals("3")) {
                             if (libro.getAutore().equals(autore)) {
                                 libriCorrispondenti.add(libro);
@@ -159,8 +155,6 @@ public class Libreria extends DatabaseQuery {
                 }
             }
             System.out.println("\nInput errato");
-
-
         }
     }
     public void stampaTuttiILibri() {
@@ -191,7 +185,7 @@ public class Libreria extends DatabaseQuery {
     public void creaLibro(String titolo, String genere, String autore) {
         Libro libro = new Libro(-1, titolo, genere, autore, false);
         this.aggiungiLibro(libro);
-        System.out.println("Libri.Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
+        System.out.println("Libro con titolo : " + libro.getTitolo() + "\n" + "dell' autore : " + libro.getAutore() +"\n"+ "di genere : " + libro.getGenere() +"\n\n " +" AGGIUNTO ALLA LIBRERIA");
     }
     public void stampaStorico() {
         if (!this.prestiti.isEmpty()) {

@@ -2,7 +2,6 @@ import Libri.Libreria;
 import Libri.Libro;
 import Libri.Prestito;
 import Persone.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,16 +12,13 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
-    public Main() {
 
-    }
-
+    //Pulizia schermo ad ogni inserimento
     public static void pulisciSchermo() {
         for (int i = 0; i < 20; ++i) {
             System.out.println();
         }
     }
-
     public static int inserimento(int min, int max) {
         Scanner input = new Scanner(System.in);
         while (true) {
@@ -31,11 +27,9 @@ public class Main {
             if (!scelta.matches(".*[a-zA-Z]+.*") && Integer.parseInt(scelta) > min && Integer.parseInt(scelta) < max) {
                 return Integer.parseInt(scelta);
             }
-
             System.out.println("\nInput non valido");
         }
     }
-
     public static void funzionalita(Persona persona, int scelta) throws IOException {
         Libreria libreria = Libreria.getInstance();
         CentroClientiPersonale ccp= CentroClientiPersonale.getInstance();
@@ -109,7 +103,6 @@ public class Main {
                                 libreria.getPrestiti().get(i).pagaMulta();
                             }
                             }
-
                         }
                     }
                 }
@@ -221,6 +214,8 @@ public class Main {
             Scanner admin = new Scanner(System.in);
             Libreria lib = Libreria.getInstance();
             CentroClientiPersonale ccp=CentroClientiPersonale.getInstance();
+
+            //Parametri a discrezione, modificare a piacimento, i numeri indicano i giorni
             lib.setMulta_al_giorno(20);
             lib.setScadenza_prestiti(5);
             lib.setScadenza_prenotazioni(7);
@@ -232,7 +227,6 @@ public class Main {
                 try {
                     lib.populateLibrary(con, lib,ccp);
                     boolean stop = false;
-
                     while (!stop) {
                         pulisciSchermo();
                         System.out.println("--------------------------------------------------------");
@@ -248,7 +242,7 @@ public class Main {
                         if (scelta == 3) {
                             System.out.println("\nInserisci password: ");
                             String aPass = admin.next();
-                            if (aPass.equals("libraio")) {
+                            if (aPass.equals("libraio")) {  //Password di dafault per SYSADMIN
                                 while (true) {
                                     pulisciSchermo();
                                     System.out.println("--------------------------------------------------------");
@@ -285,6 +279,7 @@ public class Main {
                         } else if (scelta == 1) {
                             Persona persona = ccp.login();
                             if (persona != null) {
+                                //Menù cliente
                                 if (persona.getClass().getSimpleName().equals("Cliente")) {
                                     while (true) {
                                         pulisciSchermo();
@@ -307,6 +302,7 @@ public class Main {
                                         funzionalita(persona, scelta);
                                     }
                                 } else if (persona.getClass().getSimpleName().equals("Cassiere")) {
+                                    //Menù cassiere
                                     while (true) {
                                         pulisciSchermo();
                                         System.out.println("--------------------------------------------------------");
@@ -329,10 +325,10 @@ public class Main {
                                         if (scelta == 11) {
                                             break;
                                         }
-
                                         funzionalita(persona, scelta);
                                     }
                                 } else if (persona.getClass().getSimpleName().equals("Libraio")) {
+                                    //Menu LIbraio
                                     while (true) {
                                         pulisciSchermo();
                                         System.out.println("--------------------------------------------------------");
@@ -359,7 +355,6 @@ public class Main {
                                         if (scelta == 15) {
                                             break;
                                         }
-
                                         funzionalita(persona, scelta);
                                     }
                                 }
@@ -367,25 +362,24 @@ public class Main {
                         } else {
                             stop = true;
                         }
-
                         System.out.println("\nPremi invio per continuare...\n");
                         System.in.read();
                     }
-
+                    //Salvataggio su db in caso di chiusura
                     lib.riempiDB(con, lib,ccp);
                 } catch (Exception var7) {
                     var7.printStackTrace();
                     System.out.println("\nEsco...\n");
                 }
             }
-        }catch (NullPointerException ex){
-    }finally {
+        }
+        finally {
+            //Salvataggio su db in caso di chiusura anomala
             Libreria lib= Libreria.getInstance();
             Connection con = lib.makeConnection();
             CentroClientiPersonale ccp=CentroClientiPersonale.getInstance();
             lib.riempiDB(con,lib,ccp);
         }
-
     }
     
     
