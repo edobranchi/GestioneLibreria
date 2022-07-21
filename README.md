@@ -172,4 +172,23 @@ Il programma prevede 3 livelli di autorizazzione ogniuno con diversi tipi di fun
 ### SysAdmin:
 ![SysAdmin!UseCaseDiagram1_7](https://user-images.githubusercontent.com/28054437/179316352-d545ae16-3316-452d-9128-c5720095002f.png)
 
+## Test:
+
+Sono stati effettuati test per l'aggiunta degli attori coinvolti nel funzionamento del programma e test per l'inserimento di dati nel database.
+Sono divisi nelle cartella TEST in:
+-TestAggiuntaAttori
+-TestInserimentoDB
+
+L'esecuzione dei test comporta lo svuotamento e una nuova creazione del database in quanto dati inseriti precedentemente potrebbero inficiare sulla corretta esecuzione dei suddetti test.
+
+## Future espansioni e miglioramenti:
+-Potrebbe essere implementato un factory per la creazione dei vari tipi di attori.
+-Potrebbero essere implementati i test su un database speculare di test.
+-Potrebbe essere inibito il prestito ai clienti che hanno multe in sospeso.
+
+## N.B: Creazione rapida entry database.
+E' stato aggiunto un file "Dump.sql" ripristinabile utilizzando la funzione "pg_restore" di PostgreSQL in modo tale da popolare il database in maniera rapida per poter utilizzare subito l'applicativo senza dover inserire delle entry di test manualmente.
+
+
+
 
