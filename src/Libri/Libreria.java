@@ -56,7 +56,7 @@ public class Libreria extends DatabaseQuery {
     public void rimuoviLibro(Libro libro) {
         boolean delete = true;
         for (int i = 0; i < CentroClientiPersonale.getPersone().size() && delete; ++i) {
-            if (CentroClientiPersonale.getPersone().get(i).getClass().getSimpleName().equals("Persone.Cliente")) {
+            if (CentroClientiPersonale.getPersone().get(i).getClass().getSimpleName().equals("Cliente")) {
                 ArrayList<Prestito> libriPrestito = ((Cliente) CentroClientiPersonale.getPersone().get(i)).getLibriInPrestito();
                 for (int j = 0; i < libriPrestito.size() && delete; ++j) {
                     if (libriPrestito.get(j).getLibro() == libro) {

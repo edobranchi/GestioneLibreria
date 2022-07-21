@@ -28,7 +28,7 @@ public class CentroClientiPersonale {
         if (this.libraio == null) {
             this.libraio = libraio;
             persone.add(this.libraio);
-            System.out.println("Persone.Libraio aggiunto con successo");
+            System.out.println("Libraio aggiunto con successo");
             return true;
         } else {
             System.out.println("Impossibile aggiungere libraio perchè esiste già");
@@ -51,7 +51,7 @@ public class CentroClientiPersonale {
             System.out.println("\nInput non valido");
         }
         for (int i = 0; i < persone.size(); ++i) {
-            if (( persone.get(i)).getId() == idcliente && ( persone.get(i)).getClass().getSimpleName().equals("Persone.Cliente")) {
+            if (( persone.get(i)).getId() == idcliente && ( persone.get(i)).getClass().getSimpleName().equals("Cliente")) {
                 return (Cliente) persone.get(i);
             }
 
@@ -70,7 +70,7 @@ public class CentroClientiPersonale {
             System.out.println("\nInput non valido");
         }
         for (int i = 0; i < persone.size(); ++i) {
-            if (persone.get(i).getId() == idcassiere && persone.get(i).getClass().getSimpleName().equals("Persone.Cassiere")) {
+            if (persone.get(i).getId() == idcassiere && persone.get(i).getClass().getSimpleName().equals("Cassiere")) {
                 return (Cassiere) persone.get(i);
             }
         }
@@ -132,14 +132,14 @@ public class CentroClientiPersonale {
 
             Libraio libraio = new Libraio(-1, nome, indirizzo, numerotelefono, salario, -1);
             if (this.aggiungiLibraio(libraio)) {
-                System.out.println("\nPersone.Libraio con nome " + nome + " creato con successo.");
+                System.out.println("\nLibraio con nome " + nome + " creato con successo.");
                 System.out.println("\nIl tuo ID è: " + libraio.getId());
                 System.out.println("La tua password è : " + libraio.getPassword());
             }
         } else {
             Cliente cliente = new Cliente(-1, nome, indirizzo, numerotelefono);
             this.aggiungiCliente(cliente);
-            System.out.println("\nPersone.Cliente con nome " + nome + " creato con successo.");
+            System.out.println("\nCliente con nome " + nome + " creato con successo.");
             System.out.println("\nIl tuo id è : " + cliente.getId());
             System.out.println("La tua password è : " + cliente.getPassword());
         }

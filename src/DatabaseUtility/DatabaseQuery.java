@@ -168,7 +168,7 @@ public class DatabaseQuery{
                     s[0] = ccp.getLibraio();
                 } else {
                     for(k = 0; k < CentroClientiPersonale.getPersone().size() && set; ++k) {
-                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == pres && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Persone.Cassiere")) {
+                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == pres && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
                             s[0] = (Cassiere) CentroClientiPersonale.getPersone().get(k);
                         }
@@ -183,7 +183,7 @@ public class DatabaseQuery{
                     s[1] = ccp.getLibraio();
                 } else {
                     for(k = 0; k < CentroClientiPersonale.getPersone().size() && set; ++k) {
-                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == rd && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Persone.Cassiere")) {
+                        if ((CentroClientiPersonale.getPersone().get(k)).getId() == rd && (CentroClientiPersonale.getPersone().get(k)).getClass().getSimpleName().equals("Cassiere")) {
                             set = false;
                             s[1] = (Cassiere) CentroClientiPersonale.getPersone().get(k);
                         }
@@ -331,11 +331,11 @@ public class DatabaseQuery{
         }
 
         for(i = 0; i < CentroClientiPersonale.getPersone().size(); ++i) {
-            if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Persone.Cassiere")) {
+            if ((CentroClientiPersonale.getPersone().get(i)).getClass().getSimpleName().equals("Cassiere")) {
                 template = "INSERT INTO impiegato (id_impiegato,tipo,stipendio) values (?,?,?)";
                 stmt = con.prepareStatement(template);
                 stmt.setInt(1, (CentroClientiPersonale.getPersone().get(i)).getId());
-                stmt.setString(2, "Persone.Cassiere");
+                stmt.setString(2, "Cassiere");
                 stmt.setDouble(3, ((Cassiere) CentroClientiPersonale.getPersone().get(i)).getSalario());
                 stmt.executeUpdate();
                 template = "INSERT INTO Cassiere (id_cassiere,numero_scrivania) values (?,?)";
@@ -350,7 +350,7 @@ public class DatabaseQuery{
             template = "INSERT INTO impiegato (id_impiegato,tipo,stipendio) values (?,?,?)";
             stmt = con.prepareStatement(template);
             stmt.setInt(1, ccp.getLibraio().getId());
-            stmt.setString(2, "Persone.Libraio");
+            stmt.setString(2, "Libraio");
             stmt.setDouble(3, ccp.getLibraio().getSalario());
             stmt.executeUpdate();
             template = "INSERT INTO Libraio (id_libraio,numero_scrivania) values (?,?)";
