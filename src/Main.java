@@ -208,7 +208,6 @@ public class Main {
         System.out.println("\nPremi Invio per continuare\n");
         System.in.read();
     }
-
     public static void main(String[] args) throws SQLException {
         try {
             Scanner admin = new Scanner(System.in);
@@ -381,7 +380,5 @@ public class Main {
             lib.riempiDB(con,lib,ccp);
         }
     }
-    
-    
     
 }

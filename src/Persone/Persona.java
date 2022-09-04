@@ -27,43 +27,33 @@ public abstract class Persona {
         System.out.println("Indirizzo: " +this.indirizzo);
         System.out.println("Numero di telefono: "+this.numeroTelefono);
     }
-
     public String getNome() {
         return nome;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
     public int getId() {
         return id;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
-
     public String getIndirizzo() {
         return indirizzo;
     }
-
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
-
     public long getNumeroTelefono() {
         return numeroTelefono;
     }
-
     public void setNumeroTelefono(int numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
     }
-
     public static void setNumeroIdAttuale(int numeroIdAttuale) {
         Persona.numeroIdAttuale = numeroIdAttuale;
     }

@@ -94,6 +94,7 @@ public class CreazioneDatabase implements Runnable {
             String CreateSql19 = "ALTER TABLE Libro_in_prestito ADD CONSTRAINT fk_clente FOREIGN KEY (cliente) REFERENCES Cliente (id_cliente); ";
             stmt.addBatch(CreateSql19);
             notifyObservers(100);
+            Thread.sleep(1000);
             stmt.executeBatch();
 
         } catch (SQLException | InterruptedException e) {
